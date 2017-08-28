@@ -1,6 +1,7 @@
 {
     "name": "adrianodrix/code-pub",
     "description": "Learning Laravel Framework.",
+    "version": "1.0.0",
     "keywords": ["framework", "laravel", "code-education", "editora"],
     "license": "MIT",
     "type": "project",
