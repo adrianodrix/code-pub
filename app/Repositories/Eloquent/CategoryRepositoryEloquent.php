@@ -2,11 +2,11 @@
 
 namespace CodePub\Repositories\Eloquent;
 
+use CodePub\Repositories\Traits\BaseRepositoryTrait;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodePub\Repositories\Contracts\CategoryRepository;
 use CodePub\Models\Category;
-use CodePub\Validators\CategoryValidator;
 
 /**
  * Class CategoryRepositoryEloquent
@@ -14,6 +14,7 @@ use CodePub\Validators\CategoryValidator;
  */
 class CategoryRepositoryEloquent extends BaseRepository implements CategoryRepository
 {
+    use BaseRepositoryTrait;
 
     protected $fieldSearchable = [
         'name' => 'like'

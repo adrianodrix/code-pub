@@ -40,4 +40,14 @@ class Category extends Model implements Transformable, TableInterface
         }
     }
 
+    /**
+     * Get Books
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function books()
+    {
+        return $this->belongsToMany(Book::class);
+    }
+
 }

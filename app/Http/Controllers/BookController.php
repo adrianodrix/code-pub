@@ -4,9 +4,7 @@ namespace CodePub\Http\Controllers;
 
 use CodePub\Http\Requests\BookRequest;
 use CodePub\Repositories\Contracts\BookRepository;
-use CodePub\Repositories\Criterias\Books\FindByAuthorAuthenticatedCriteria;
-use CodePub\Repositories\Criterias\FindByTitleCriteria;
-use CodePub\Repositories\Criterias\FindLikeTitleCriteria;
+use CodePub\Repositories\Contracts\CategoryRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
@@ -16,15 +14,21 @@ class BookController extends Controller
      * @var BookRepository
      */
     private $repository;
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
 
     /**
      * BookController constructor.
      *
      * @param BookRepository $repository
+     * @param CategoryRepository $categoryRepository
      */
-    public function __construct(BookRepository $repository)
+    public function __construct(BookRepository $repository, CategoryRepository $categoryRepository)
     {
         $this->repository = $repository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -46,7 +50,8 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('books.create');
+        $categories = $this->categoryRepository->lists('name', 'id');
+        return view('books.create', compact('categories'));
     }
 
     /**
@@ -79,7 +84,9 @@ class BookController extends Controller
         if ($book->author->id != \Auth::user()->id) {
             throw new AuthorizationException('This action is unauthorized.');
         }
-        return view('books.edit',compact('book'));
+
+        $categories = $this->categoryRepository->lists('name', 'id');
+        return view('books.edit',compact('book', 'categories'));
     }
 
     /**

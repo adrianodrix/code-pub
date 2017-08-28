@@ -20,6 +20,39 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
     ];
 
     /**
+     * Save a new entity in repository
+     *
+     * @throws ValidatorException
+     *
+     * @param array $attributes
+     *
+     * @return mixed
+     */
+    public function create(array $attributes)
+    {
+        $model = parent::create($attributes);
+        $model->categories()->sync($attributes['categories']);
+        return $model;
+    }
+
+    /**
+     * Update a entity in repository by id
+     *
+     * @throws ValidatorException
+     *
+     * @param array $attributes
+     * @param       $id
+     *
+     * @return mixed
+     */
+    public function update(array $attributes, $id)
+    {
+        $model = parent::update($attributes, $id);
+        $model->categories()->sync($attributes['categories']);
+        return $model;
+    }
+
+    /**
      * Specify Model class name
      *
      * @return string

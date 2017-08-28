@@ -3,13 +3,15 @@
 namespace CodePub\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
+use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 class Book extends Model implements Transformable, TableInterface
 {
-    use TransformableTrait;
+    use TransformableTrait,
+        FormAccessible;
 
     /**
      * The attributes that are mass assignable.
@@ -57,5 +59,25 @@ class Book extends Model implements Transformable, TableInterface
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
+    }
+
+    /**
+     * Get Categories
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    /**
+     * Get Categories IDs
+     *
+     * @return mixed
+     */
+    public function formCategoriesAttribute()
+    {
+        return $this->categories->pluck('id')->all();
     }
 }

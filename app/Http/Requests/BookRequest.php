@@ -55,11 +55,27 @@ class BookRequest extends FormRequest
             'title' => "required|max:200|unique:books,title,$id",
             'subtitle' => 'required|max:200',
             'price' => 'required|numeric|min:0',
+            'categories' => "required|array",
+            'categories.*' => 'exists:categories,id',
         ];
     }
 
-    public function forbiddenResponse()
+    public function messages()
     {
-        return response()->view('errors.403');
+        $result = [];
+        $categories = $this->get('categories', []);
+        $count = count($categories);
+        if(is_array($categories) &&  $count > 0) {
+            foreach (range(0, $count-1) as $value) {
+                $field = \Lang::get('validation.attributes.categories_*', [
+                    'num' => $value +1
+                ]);
+                $message = \Lang::get('validation.exists', [
+                    'attribute' => $field
+                ]);
+                $result["categories.$value.exists"] = $message;
+            }
+        }
+        return $result;
     }
 }
