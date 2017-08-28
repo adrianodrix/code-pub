@@ -9,15 +9,7 @@
             ->striped()
             ->hover()
             ->callback('Ações', function($field, $book) {
-                $linkEdit = getLinkEdit($book);
-                $formDelete = getFormDestroy($book);
-                $linkDestroy = getLinkDestroy($book);
-
-                return "<ul class=\"list-inline\">
-                            <li>$linkEdit</li>
-                            <li>$linkDestroy</li>
-                        </ul>
-                        $formDelete";
+                return callbackTable($field, $book);
             })
      !!}
     {!! $books->links() !!}
@@ -25,6 +17,19 @@
 @endsection
 
 <?php
+function callbackTable($field, $book)
+{
+    $linkEdit = getLinkEdit($book);
+    $formDelete = getFormDestroy($book);
+    $linkDestroy = getLinkDestroy($book);
+
+    return "<ul class=\"list-inline\">
+                <li>$linkEdit</li>
+                <li>$linkDestroy</li>
+            </ul>
+            $formDelete";
+}
+
 function getLinkDestroy($book)
 {
     $deleteFormID = "form-delete_". $book->id;

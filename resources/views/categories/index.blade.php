@@ -8,21 +8,26 @@
             ->striped()
             ->hover()
             ->callback('Ações', function($field, $category) {
-                $linkEdit = getLinkEdit($category);
-                $formDelete = getFormDestroy($category);
-                $linkDestroy = getLinkDestroy($category);
-
-                return "<ul class=\"list-inline\">
-                            <li>$linkEdit</li>
-                            <li>$linkDestroy</li>
-                        </ul>
-                        $formDelete";
+                return callbackTable($field, $category);
             })
      !!}
     {!! $categories->links() !!}
 @endsection
 
 <?php
+    function callbackTable($field, $category)
+    {
+        $linkEdit = getLinkEdit($category);
+        $formDelete = getFormDestroy($category);
+        $linkDestroy = getLinkDestroy($category);
+
+        return "<ul class=\"list-inline\">
+                    <li>$linkEdit</li>
+                    <li>$linkDestroy</li>
+                </ul>
+                $formDelete";
+    }
+
     function getLinkDestroy($category)
     {
         $deleteFormID = "form-delete_". $category->id;
