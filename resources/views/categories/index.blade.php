@@ -1,7 +1,14 @@
 @extends('layouts.app')
 @section('content')
-    <h1>Categorias</h1>
-    {!! Button::primary('Nova Categoria')->asLinkTo(route('categories.create')) !!}
+    <div class="row">
+        <h1>Categorias</h1>
+        {!! Button::primary('Nova Categoria')->asLinkTo(route('categories.create')) !!}
+    </div>
+    <div class="row">
+        {!! Form::model(compact('search'), ['class' => 'form', 'method' => 'GET']) !!}
+        {!! Html::search('search') !!}
+        {!! Form::close() !!}
+    </div>
     <hr/>
     {!!
         Table::withContents($categories->items())

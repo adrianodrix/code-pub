@@ -2,14 +2,13 @@
 
 namespace CodePub\Repositories\Contracts;
 
-use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Interface BookRepository
+ * Interface UserRepository
  * @package namespace CodePub\Repositories\Contracts;
  */
-interface BookRepository extends RepositoryInterface, RepositoryCriteriaInterface
+interface UserRepository extends RepositoryInterface
 {
     //
 }

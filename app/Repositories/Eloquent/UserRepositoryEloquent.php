@@ -4,21 +4,16 @@ namespace CodePub\Repositories\Eloquent;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use CodePub\Repositories\Contracts\BookRepository;
-use CodePub\Models\Book;
-use CodePub\Validators\BookValidator;
+use CodePub\Repositories\Contracts\UserRepository;
+use CodePub\Models\User;
+use CodePub\Validators\UserValidator;
 
 /**
- * Class BookRepositoryEloquent
+ * Class UserRepositoryEloquent
  * @package namespace CodePub\Repositories\Eloquent;
  */
-class BookRepositoryEloquent extends BaseRepository implements BookRepository
+class UserRepositoryEloquent extends BaseRepository implements UserRepository
 {
-    protected $fieldSearchable = [
-        'title' => 'like',
-        'author.name' => 'like'
-    ];
-
     /**
      * Specify Model class name
      *
@@ -26,7 +21,7 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
      */
     public function model()
     {
-        return Book::class;
+        return User::class;
     }
 
     

@@ -30,9 +30,11 @@ $factory->define(CodePub\Models\Category::class, function (Faker\Generator $fake
 });
 
 $factory->define(CodePub\Models\Book::class, function (Faker\Generator $faker) {
+    $repo = app(\CodePub\Repositories\Contracts\UserRepository::class);
     return [
         'title' => $faker->unique()->sentences(1, true),
         'subtitle' => $faker->paragraph(3, true),
-        'price' =>$faker->randomFloat(2,10,900),
+        'price' => $faker->randomFloat(2,10,900),
+        'author_id' => $repo->all()->random()->id,
     ];
 });

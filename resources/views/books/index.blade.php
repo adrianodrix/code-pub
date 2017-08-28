@@ -1,19 +1,26 @@
 @extends('layouts.app')
 @section('content')
-
-    <h1>Livros</h1>
-    {!! Button::primary('Novo Livro')->asLinkTo(route('books.create')) !!}
+    <div class="row">
+        <h1>Livros</h1>
+        {!! Button::primary('Novo Livro')->asLinkTo(route('books.create')) !!}
+    </div>
+    <div class="row">
+        {!! Form::model(compact('search'), ['class' => 'form', 'method' => 'GET']) !!}
+        {!! Html::search('search') !!}
+        {!! Form::close() !!}
+    </div>
     <hr/>
-    {!!
-        Table::withContents($books->items())
-            ->striped()
-            ->hover()
-            ->callback('Ações', function($field, $book) {
-                return callbackTable($field, $book);
-            })
-     !!}
-    {!! $books->links() !!}
-
+    <div class="row">
+        {!!
+            Table::withContents($books->items())
+                ->striped()
+                ->hover()
+                ->callback('Ações', function($field, $book) {
+                    return callbackTable($field, $book);
+                })
+         !!}
+        {!! $books->links() !!}
+    </div>
 @endsection
 
 <?php

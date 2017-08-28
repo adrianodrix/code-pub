@@ -17,7 +17,7 @@ class Book extends Model implements Transformable, TableInterface
      * @var array
      */
     protected $fillable = [
-        'title', 'subtitle', 'price'
+        'title', 'subtitle', 'price', 'author_id'
     ];
 
     /**
@@ -28,7 +28,7 @@ class Book extends Model implements Transformable, TableInterface
     public function getTableHeaders()
     {
         return [
-            'Código', 'Título', 'Preço'
+            'Código', 'Título', 'Autor', 'Preço'
         ];
     }
 
@@ -44,8 +44,18 @@ class Book extends Model implements Transformable, TableInterface
         switch ($header) {
             case 'Código': return $this->id;
             case 'Título': return $this->title;
+            case 'Autor': return $this->author->name;
             case 'Preço': return $this->price;
         }
     }
 
+    /**
+     * Get Author
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id', 'id');
+    }
 }

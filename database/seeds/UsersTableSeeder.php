@@ -11,6 +11,8 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        factory(\CodePub\Models\User::class, 50)->create();
+
         factory(\CodePub\Models\User::class, 1)->create([
             'email' => 'admin@codepub.com',
         ]);

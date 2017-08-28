@@ -24,6 +24,18 @@ class AppServiceProvider extends ServiceProvider
             $string .= "</div>";
             return $string;
         });
+
+        \Html::macro('search', function ($field) {
+            $input = \Form::text($field, null, ['class' => 'form-control input-lg', 'placeholder' => 'Buscar']);
+            $button = \Button::withValue()->prependIcon(\Icon::search())->submit();
+
+            return "<div id=\"custom-search-input\" style=\"margin-top: 10px;\">
+                        <div class=\"input-group col-md-12\">
+                            {$input}
+                            <span class=\"input-group-btn\">{$button}</span>
+                        </div>
+                    </div>";
+        });
     }
 
     /**

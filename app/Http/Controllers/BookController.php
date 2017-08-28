@@ -4,6 +4,11 @@ namespace CodePub\Http\Controllers;
 
 use CodePub\Http\Requests\BookRequest;
 use CodePub\Repositories\Contracts\BookRepository;
+use CodePub\Repositories\Criterias\Books\FindByAuthorAuthenticatedCriteria;
+use CodePub\Repositories\Criterias\FindByTitleCriteria;
+use CodePub\Repositories\Criterias\FindLikeTitleCriteria;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -27,10 +32,11 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->search;
         $books = $this->repository->orderBy('id','desc')->paginate();
-        return view('books.index',compact('books'));
+        return view('books.index',compact('books', 'search'));
     }
 
     /**
@@ -51,7 +57,9 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        $this->repository->create($request->all());
+        $data = $request->all();
+        $data['author_id'] = \Auth::user()->id;
+        $this->repository->create($data);
 
         $request->session()->flash('message', ['type' => 'success', 'message' => 'Novo Livro foi criado com sucesso.']);
         return redirect()->to($request->get('redirect_to', route('books.index')));
@@ -60,12 +68,17 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param $id
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      * @internal param int $id
      */
     public function edit($id)
     {
         $book = $this->repository->find($id);
+        if ($book->author->id != \Auth::user()->id) {
+            throw new AuthorizationException('This action is unauthorized.');
+        }
         return view('books.edit',compact('book'));
     }
 
@@ -78,7 +91,8 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, $id)
     {
-        $this->repository->update($request->all(), $id);
+        $data = $request->except(['author_id']);
+        $this->repository->update($data, $id);
 
         $request->session()->flash('message', ['type' => 'success', 'message' => 'O Livro foi atualizado com sucesso.']);
         return redirect()->to($request->get('redirect_to', route('books.index')));
@@ -87,11 +101,18 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param $id
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      * @internal param int $id
      */
     public function destroy($id)
     {
+        $book = $this->repository->find($id);
+        if ($book->author->id != \Auth::user()->id) {
+            throw new AuthorizationException('This action is unauthorized.');
+        }
+
         $this->repository->delete($id);
 
         \Session::flash('message', ['type' => 'warning', 'message' => 'Livro foi excluido com sucesso.']);
