@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -27,13 +27,14 @@ class CategoryController extends Controller
     {
         return view('categories.create');
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CategoryRequest|\Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         Category::create($request->all());
         return redirect()->route('categories.index');
@@ -54,12 +55,12 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param CategoryRequest|\Illuminate\Http\Request $request
      * @param Category $category
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->all());
         return redirect()->route('categories.index');

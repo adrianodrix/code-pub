@@ -13,7 +13,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Html::macro('formGroup', function ($field, $label, $errors) {
+            $class_erro = $errors->has($field) ? 'has-error' : '';
+            $string = "<div class=\"form-group $class_erro \">";
+            $string .= \Form::label($field, $label, ['class' => 'control-label']);
+            $string .= \Form::text($field, null, ['class' => 'form-control']);
+            if ($class_erro):
+                $string .= "<span class='help-block'><strong>{$errors->first($field)}</strong></span>";
+            endif;
+            $string .= "</div>";
+            return $string;
+        });
     }
 
     /**

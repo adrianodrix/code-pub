@@ -5,7 +5,7 @@
         <h1>Livros</h1>
         <a class="btn btn-primary" href="{{route('books.create')}}">Novo Livro</a>
         <hr/>
-        <table class="table table-striped">
+        <table class="table table-hover table-striped">
             <thead>
             <tr>
                 <th>Código</th>

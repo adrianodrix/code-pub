@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-use Illuminate\Http\Request;
+use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
@@ -17,6 +17,7 @@ class BookController extends Controller
         $books = Book::query()->orderBy('id','desc')->paginate(10);
         return view('books.index',compact('books'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -26,13 +27,14 @@ class BookController extends Controller
     {
         return view('books.create');
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param BookRequest|\Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
         Book::create($request->all());
         return redirect()->route('books.index');
@@ -53,12 +55,12 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param BookRequest|\Illuminate\Http\Request $request
      * @param Book $book
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
 
         $book->update($request->all());

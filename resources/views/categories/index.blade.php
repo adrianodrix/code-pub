@@ -6,7 +6,7 @@
         <h1>Categorias</h1>
         <a class="btn btn-primary" href="{{route('categories.create')}}">Nova Categoria</a>
         <hr/>
-        <table class="table table-striped">
+        <table class="table table-hover table-striped">
             <thead>
                 <tr>
                     <th>Código</th>
