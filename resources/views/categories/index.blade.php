@@ -1,52 +1,53 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row">
+    <h1>Categorias</h1>
+    {!! Button::primary('Nova Categoria')->asLinkTo(route('categories.create')) !!}
+    <hr/>
+    {!!
+        Table::withContents($categories->items())
+            ->striped()
+            ->hover()
+            ->callback('Ações', function($field, $category) {
+                $linkEdit = getLinkEdit($category);
+                $formDelete = getFormDestroy($category);
+                $linkDestroy = getLinkDestroy($category);
 
-        <h1>Categorias</h1>
-        <a class="btn btn-primary" href="{{route('categories.create')}}">Nova Categoria</a>
-        <hr/>
-        <table class="table table-hover table-striped">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Nome</th>
-                    <th>Acões</th>
-                </tr>
-            </thead>
-
-            <tbody>
-            @foreach($categories as $category)
-                <?php $deleteFormID ="form-delete_". $loop->index; ?>
-                <tr>
-                    <td>{{ $category->id }}</td>
-                    <td>{{ $category->name }}</td>
-                    <td>
-                        <ul class="list-inline">
-                            <li>
-                                <a href="{{route('categories.edit', $category->id)}}"
-                                   class="label label-primary">
-                                    Editar</a>
-                            </li>
-                            <li>
-                                <a href="{{route('categories.destroy', $category->id)}}"
-                                   onclick="event.preventDefault(); document.getElementById('{{ $deleteFormID }}').submit()"
-                                   class="label label-default">
-                                    Excluir</a>
-                            </li>
+                return "<ul class=\"list-inline\">
+                            <li>$linkEdit</li>
+                            <li>$linkDestroy</li>
                         </ul>
-
-                        {!! Form::open(['route'=>['categories.destroy', $category->id],'method'=>'DELETE',
-                            'class'=>'form-inline','style'=>'display:none', 'id'=> $deleteFormID])!!}
-                        {!! Form::submit('Excluir') !!}
-                        {!! Form::close() !!}
-
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-        {!! $categories->links() !!}
-    </div>
-</div>
+                        $formDelete";
+            })
+     !!}
+    {!! $categories->links() !!}
 @endsection
+
+<?php
+    function getLinkDestroy($category)
+    {
+        $deleteFormID = "form-delete_". $category->id;
+        return Button::withValue('Excluir')
+                ->extraSmall()
+                ->asLinkTo(route('categories.destroy', $category->id))
+                ->addAttributes([
+                        'onclick' => "event.preventDefault(); document.getElementById(\"$deleteFormID\").submit()"
+                ]);
+    }
+
+    function getFormDestroy($category)
+    {
+        $deleteFormID = "form-delete_". $category->id;
+        $formDelete = Form::open(['route'=>['categories.destroy', $category->id],'method'=>'DELETE',
+                        'class'=>'form-inline','style'=>'display:none', 'id'=> $deleteFormID]).
+                Form::submit('Excluir').
+                Form::close();
+        return $formDelete;
+    }
+
+    function getLinkEdit($category)
+    {
+        return Button::primary('Editar')
+                ->asLinkTo(route('categories.edit', $category->id))
+                ->extraSmall();
+    }
+?>

@@ -37,7 +37,8 @@ class BookController extends Controller
     public function store(BookRequest $request)
     {
         Book::create($request->all());
-        return redirect()->route('books.index');
+        $request->session()->flash('message', ['type' => 'success', 'message' => 'Novo Livro foi criado com sucesso.']);
+        return redirect()->to($request->get('redirect_to', route('books.index')));
     }
 
     /**
@@ -64,7 +65,8 @@ class BookController extends Controller
     {
 
         $book->update($request->all());
-        return redirect()->route('books.index');
+        $request->session()->flash('message', ['type' => 'success', 'message' => 'O Livro foi atualizado com sucesso.']);
+        return redirect()->to($request->get('redirect_to', route('books.index')));
     }
 
     /**
@@ -77,6 +79,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
-        return redirect()->route('books.index');
+        \Session::flash('message', ['type' => 'warning', 'message' => 'Livro foi excluido com sucesso.']);
+        return redirect()->to(\URL::previous());
     }
 }
