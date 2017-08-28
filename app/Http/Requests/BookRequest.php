@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace CodePub\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,6 +15,7 @@ class BookRequest extends FormRequest
     {
         return true;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,8 +23,10 @@ class BookRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('book');
+
         return [
-            'title' => 'required|max:200',
+            'title' => "required|max:200|unique:books,title,$id",
             'subtitle' => 'required|max:200',
             'price' => 'required|numeric|min:0',
         ];

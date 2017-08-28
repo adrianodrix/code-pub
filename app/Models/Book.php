@@ -1,12 +1,16 @@
 <?php
 
-namespace App;
+namespace CodePub\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
 use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 
-class Book extends Model implements TableInterface
+class Book extends Model implements Transformable, TableInterface
 {
+    use TransformableTrait;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -43,4 +47,5 @@ class Book extends Model implements TableInterface
             case 'Preço': return $this->price;
         }
     }
+
 }
