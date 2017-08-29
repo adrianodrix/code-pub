@@ -9,16 +9,17 @@
         {!! Html::search('search') !!}
         {!! Form::close() !!}
     </div>
-    <hr/>
-    {!!
-        Table::withContents($categories->items())
-            ->striped()
-            ->hover()
-            ->callback('Ações', function($field, $category) {
-                return callbackTable($field, $category);
-            })
-     !!}
-    {!! $categories->links() !!}
+    <div class="row">
+        {!!
+            Table::withContents($categories->items())
+                ->striped()
+                ->hover()
+                ->callback('Ações', function($field, $category) {
+                    return callbackTable($field, $category);
+                })
+         !!}
+        {!! $categories->links() !!}
+    </div>
 @endsection
 
 <?php
@@ -38,7 +39,7 @@
     function getLinkDestroy($category)
     {
         $deleteFormID = "form-delete_". $category->id;
-        return Button::withValue('Excluir')
+        return Button::withValue(\Icon::trash())
                 ->extraSmall()
                 ->asLinkTo(route('categories.destroy', $category->id))
                 ->addAttributes([

@@ -9,16 +9,21 @@
         {!! Html::search('search') !!}
         {!! Form::close() !!}
     </div>
-    <hr/>
     <div class="row">
-        {!!
-            Table::withContents($books->items())
-                ->striped()
-                ->hover()
-                ->callback('Ações', function($field, $book) {
-                    return callbackTable($field, $book);
-                })
-         !!}
+        @if($books->count() > 0)
+            {!!
+                Table::withContents($books->items())
+                    ->striped()
+                    ->hover()
+                    ->callback('Ações', function($field, $book) {
+                        return callbackTable($field, $book);
+                    })
+             !!}
+        @else
+            <div class="well well-lg text-center">
+                <strong>Listagem vazia</strong>
+            </div>
+        @endif
         {!! $books->links() !!}
     </div>
 @endsection
@@ -40,7 +45,7 @@ function callbackTable($field, $book)
 function getLinkDestroy($book)
 {
     $deleteFormID = "form-delete_". $book->id;
-    return Button::withValue('Excluir')
+    return Button::withValue(\Icon::trash())
             ->extraSmall()
             ->asLinkTo(route('books.destroy', $book->id))
             ->addAttributes([
@@ -53,7 +58,7 @@ function getFormDestroy($book)
     $deleteFormID = "form-delete_". $book->id;
     $formDelete = Form::open(['route'=>['books.destroy', $book->id],'method'=>'DELETE',
                     'class'=>'form-inline','style'=>'display:none', 'id'=> $deleteFormID]).
-            Form::submit('Excluir').
+            Form::submit('Lixeira').
             Form::close();
     return $formDelete;
 }

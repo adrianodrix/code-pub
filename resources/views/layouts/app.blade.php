@@ -37,6 +37,12 @@
 
                 $user = Navigation::right()->links([
                     [
+                        'Lixeira',
+                        [
+                            ['link' => route('trashed.books.index'), 'title' => 'Livros'],
+                        ]
+                    ],
+                    [
                         Auth::user()->name,
                         [
                             [

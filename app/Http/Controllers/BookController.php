@@ -50,7 +50,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        $categories = $this->categoryRepository->lists('name', 'id');
+        $categories = $this->categoryRepository->withTrashed()->listsWithMutators('name_trashed', 'id');
         return view('books.create', compact('categories'));
     }
 
@@ -85,7 +85,7 @@ class BookController extends Controller
             throw new AuthorizationException('This action is unauthorized.');
         }
 
-        $categories = $this->categoryRepository->lists('name', 'id');
+        $categories = $this->categoryRepository->withTrashed()->listsWithMutators('name_trashed', 'id');
         return view('books.edit',compact('book', 'categories'));
     }
 

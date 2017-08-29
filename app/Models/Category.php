@@ -4,14 +4,22 @@ namespace CodePub\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 class Category extends Model implements Transformable, TableInterface
 {
-    use TransformableTrait;
+    use TransformableTrait,
+        SoftDeletes;
 
     protected $fillable = ['name'];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
 
     /**
      * A list of headers to be used when a table is displayed
@@ -21,7 +29,7 @@ class Category extends Model implements Transformable, TableInterface
     public function getTableHeaders()
     {
         return [
-            'Código', 'Nome'
+            'Código', 'Nome', 'Livros'
         ];
     }
 
@@ -37,6 +45,7 @@ class Category extends Model implements Transformable, TableInterface
         switch ($header) {
             case 'Código': return $this->id;
             case 'Nome': return $this->name;
+            case 'Livros': return $this->books()->count();
         }
     }
 
@@ -48,6 +57,15 @@ class Category extends Model implements Transformable, TableInterface
     public function books()
     {
         return $this->belongsToMany(Book::class);
+    }
+
+    /**
+     * Get name is trashed
+     *
+     * @return mixed|string
+     */
+    public function getNameTrashedAttribute(){
+        return $this->trashed() ? "{$this->name} (Inativa)" : $this->name ;
     }
 
 }

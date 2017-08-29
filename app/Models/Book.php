@@ -5,13 +5,15 @@ namespace CodePub\Models;
 use Bootstrapper\Interfaces\TableInterface;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 class Book extends Model implements Transformable, TableInterface
 {
     use TransformableTrait,
-        FormAccessible;
+        FormAccessible,
+        SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +22,12 @@ class Book extends Model implements Transformable, TableInterface
      */
     protected $fillable = [
         'title', 'subtitle', 'price', 'author_id'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     /**
@@ -58,7 +66,7 @@ class Book extends Model implements Transformable, TableInterface
      */
     public function author()
     {
-        return $this->belongsTo(User::class, 'author_id', 'id');
+        return $this->belongsTo(User::class, 'author_id', 'id')->withTrashed();
     }
 
     /**
@@ -68,7 +76,7 @@ class Book extends Model implements Transformable, TableInterface
      */
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class)->withTrashed();
     }
 
     /**
