@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'Code Pub'),
+    'name' => env('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt-BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,15 +168,18 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Bootstrapper\BootstrapperL5ServiceProvider::class,
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        CodePub\Providers\AppServiceProvider::class,
+        CodePub\Providers\AuthServiceProvider::class,
+        // CodePub\Providers\BroadcastServiceProvider::class,
+        CodePub\Providers\EventServiceProvider::class,
+        CodePub\Providers\RouteServiceProvider::class,
+        CodePub\Providers\RepositoryServiceProvider::class,
 
     ],
 
@@ -227,10 +230,36 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        // Bootstraper
+        'Accordion' => Bootstrapper\Facades\Accordion::class,
+        'Alert' => Bootstrapper\Facades\Alert::class,
+        'Badge' => Bootstrapper\Facades\Badge::class,
+        'Breadcrumb' => Bootstrapper\Facades\Breadcrumb::class,
+        'Button' => Bootstrapper\Facades\Button::class,
+        'ButtonGroup' => Bootstrapper\Facades\ButtonGroup::class,
+        'Carousel' => Bootstrapper\Facades\Carousel::class,
+        'ControlGroup' => Bootstrapper\Facades\ControlGroup::class,
+        'DropdownButton' => Bootstrapper\Facades\DropdownButton::class,
+        'Helpers' => Bootstrapper\Facades\Helpers::class,
+        'Icon' => Bootstrapper\Facades\Icon::class,
+        'InputGroup' => Bootstrapper\Facades\InputGroup::class,
+        'Image' => Bootstrapper\Facades\Image::class,
+        'Label' => Bootstrapper\Facades\Label::class,
+        'MediaObject' => Bootstrapper\Facades\MediaObject::class,
+        'Modal' => Bootstrapper\Facades\Modal::class,
+        'Navbar' => Bootstrapper\Facades\Navbar::class,
+        'Navigation' => Bootstrapper\Facades\Navigation::class,
+        'Panel' => Bootstrapper\Facades\Panel::class,
+        'ProgressBar' => Bootstrapper\Facades\ProgressBar::class,
+        'Tabbable' => Bootstrapper\Facades\Tabbable::class,
+        'Table' => Bootstrapper\Facades\Table::class,
+        'Thumbnail' => Bootstrapper\Facades\Thumbnail::class,
+        
         // Vendors
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
 
-    ],
+        //
 
+    ],
 ];

@@ -1,22 +1,48 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace CodePub\Http\Controllers;
 
-use App\Book;
+use CodePub\Http\Requests\BookRequest;
+use CodePub\Repositories\Contracts\BookRepository;
+use CodePub\Repositories\Contracts\CategoryRepository;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
     /**
+     * @var BookRepository
+     */
+    private $repository;
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    /**
+     * BookController constructor.
+     *
+     * @param BookRepository $repository
+     * @param CategoryRepository $categoryRepository
+     */
+    public function __construct(BookRepository $repository, CategoryRepository $categoryRepository)
+    {
+        $this->repository = $repository;
+        $this->categoryRepository = $categoryRepository;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::query()->orderBy('id','desc')->paginate(10);
-        return view('books.index',compact('books'));
+        $search = $request->search;
+        $books = $this->repository->orderBy('id','desc')->paginate();
+        return view('books.index',compact('books', 'search'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -24,57 +50,79 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('books.create');
+        $categories = $this->categoryRepository->withTrashed()->listsWithMutators('name_trashed', 'id');
+        return view('books.create', compact('categories'));
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param BookRequest|\Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        Book::create($request->all());
-        return redirect()->route('books.index');
+        $data = $request->all();
+        $data['author_id'] = \Auth::user()->id;
+        $this->repository->create($data);
+
+        $request->session()->flash('message', ['type' => 'success', 'message' => 'Novo Livro foi criado com sucesso.']);
+        return redirect()->to($request->get('redirect_to', route('books.index')));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Book $book
+     * @param $id
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      * @internal param int $id
      */
-    public function edit(Book $book)
+    public function edit($id)
     {
-        return view('books.edit',compact('book'));
+        $book = $this->repository->find($id);
+        if ($book->author->id != \Auth::user()->id) {
+            throw new AuthorizationException('This action is unauthorized.');
+        }
+
+        $categories = $this->categoryRepository->withTrashed()->listsWithMutators('name_trashed', 'id');
+        return view('books.edit',compact('book', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param Book $book
+     * @param BookRequest|\Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, $id)
     {
+        $data = $request->except(['author_id']);
+        $this->repository->update($data, $id);
 
-        $book->update($request->all());
-        return redirect()->route('books.index');
+        $request->session()->flash('message', ['type' => 'success', 'message' => 'O Livro foi atualizado com sucesso.']);
+        return redirect()->to($request->get('redirect_to', route('books.index')));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Book $book
+     * @param $id
      * @return \Illuminate\Http\Response
+     * @throws AuthorizationException
      * @internal param int $id
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
-        $book->delete();
-        return redirect()->route('books.index');
+        $book = $this->repository->find($id);
+        if ($book->author->id != \Auth::user()->id) {
+            throw new AuthorizationException('This action is unauthorized.');
+        }
+
+        $this->repository->delete($id);
+
+        \Session::flash('message', ['type' => 'warning', 'message' => 'Livro foi excluido com sucesso.']);
+        return redirect()->to(\URL::previous());
     }
 }

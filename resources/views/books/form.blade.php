@@ -1,16 +1,15 @@
-<div class="form-group">
-    {!! Form::label('title', 'Título') !!}
-    {!! Form::text('title', null, ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
-    {!! Form::label('subtitle', 'Sub-Titulo') !!}
-    {!! Form::text('subtitle', null, ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
-    {!! Form::label('price', 'Preço') !!}
-    {!! Form::text('price', null, ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
-    <?php $nome_submit = isset($book) ? 'Editar Livro' : 'Criar Livro'; ?>
-    {!! Form::submit($nome_submit,['class'=>'btn btn-primary']) !!}
-</div>
+{!! Form::hidden('redirect_to', URL::previous()) !!}
+{!! Html::formGroup('title','Título', $errors) !!}
+{!! Html::formGroup('subtitle','Subtítulo', $errors) !!}
+{!! Html::formGroup('price','Preço', $errors) !!}
+
+{!! Html::openFormGroup(['categories', 'categories.*'], $errors) !!}
+    {!! Form::label('categories[]', 'Categorias',['class' =>'control-label']) !!}
+    {!! Form::select('categories[]', $categories, null, ['class' => 'form-control', 'multiple' => 'true']) !!}
+    {!! Form::error('categories', $errors) !!}
+    {!! Form::error('categories.*', $errors) !!}
+{!! Html::closeFormGroup() !!}
+
+{!! Html::openFormGroup('submit', $errors) !!}
+    {!! Button::primary(isset($book) ? 'Editar Livro' : 'Criar Livro')->prependIcon(Icon::plus())->submit() !!}
+{!! Html::closeFormGroup() !!}

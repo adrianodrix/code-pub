@@ -11,6 +11,12 @@ class BooksTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Book::class,50)->create();
+        $collection = app(\CodePub\Repositories\Contracts\CategoryRepository::class)->all();
+
+        factory(CodePub\Models\Book::class,50)
+            ->create()
+            ->each(function($book) use ($collection) {
+                $book->categories()->sync($collection->random(4)->pluck('id')->all());
+            });
     }
 }

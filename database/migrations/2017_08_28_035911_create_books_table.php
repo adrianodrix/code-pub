@@ -18,6 +18,8 @@ class CreateBooksTable extends Migration
             $table->string('title', 200)->index();
             $table->string('subtitle', 200)->nullable();
             $table->float('price')->default(0.0);
+            $table->unsignedInteger('author_id');
+            $table->foreign('author_id')->references('id')->on('uses');
             $table->timestamps();
         });
     }
