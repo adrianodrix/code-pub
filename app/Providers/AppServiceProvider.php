@@ -2,6 +2,7 @@
 
 namespace CodePub\Providers;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -76,9 +77,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // See: https://gist.github.com/richnicholls404/7449378
         if ($this->app->environment() !== 'production') {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            $this->registerPackagesEnv();
+            $this->registerAliases();
         }
         //
+    }
+
+    public function registerPackagesEnv()
+    {
+        $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        $this->app->register(\Nwidart\Modules\LaravelModulesServiceProvider::class);
+    }
+
+    public function registerAliases()
+    {
+        AliasLoader::getInstance()->alias('Module', \Nwidart\Modules\Facades\Module::class);
     }
 }
