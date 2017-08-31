@@ -1,0 +1,21 @@
+{
+    "name": "Book",
+    "alias": "book",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "CodeEdu\\Book\\Providers\\BookServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "migration": {
+      "seed": [
+        "CodeEdu\\Book\\Database\\Seeders\\BookDatabaseSeeder"
+      ]
+    },
+    "requires": []
+}

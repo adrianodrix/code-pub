@@ -28,7 +28,7 @@
         ],
         "psr-4": {
             "CodePub\\": "app/",
-            "CodePub\\": "modules/",
+            "CodeEdu\\": "modules/code-edu/"
         }
     },
     "autoload-dev": {

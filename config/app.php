@@ -171,6 +171,9 @@ return [
         Bootstrapper\BootstrapperL5ServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
 
+        // Modules
+        CodeEdu\Book\Providers\BookServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
