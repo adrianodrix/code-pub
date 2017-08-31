@@ -27,7 +27,8 @@
             "database"
         ],
         "psr-4": {
-            "CodePub\\": "app/"
+            "CodePub\\": "app/",
+            "CodePub\\": "modules/",
         }
     },
     "autoload-dev": {
