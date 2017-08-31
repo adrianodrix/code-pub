@@ -1,6 +1,6 @@
 <?php
 
-namespace CodePub\Models;
+namespace CodeEdu\User\Models;
 
 use CodeEdu\Book\Models\Book;
 use Illuminate\Database\Eloquent\SoftDeletes;

@@ -1,11 +1,11 @@
 <?php
 
-namespace CodePub\Repositories\Eloquent;
+namespace CodeEdu\User\Repositories\Eloquent;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use CodePub\Repositories\Contracts\UserRepository;
-use CodePub\Models\User;
+use CodeEdu\User\Repositories\Contracts\UserRepository;
+use CodeEdu\User\Models\User;
 use CodePub\Validators\UserValidator;
 
 /**

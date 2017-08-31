@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware'=>'auth'],function (){
+Route::group(['middleware'=>'auth'], function (){
     Route::resource('categories', 'CategoryController', ['except' => ['show'] ]);
     Route::resource('books', 'BookController', ['except' => ['show'] ]);
 

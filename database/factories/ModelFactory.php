@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(CodePub\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(\CodeEdu\User\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -30,7 +30,7 @@ $factory->define(\CodeEdu\Book\Models\Category::class, function (Faker\Generator
 });
 
 $factory->define(\CodeEdu\Book\Models\Book::class, function (Faker\Generator $faker) {
-    $repo = app(\CodePub\Repositories\Contracts\UserRepository::class);
+    $repo = app(\CodeEdu\User\Repositories\Contracts\UserRepository::class);
     return [
         'title' => $faker->unique()->sentences(1, true),
         'subtitle' => $faker->paragraph(3, true),
