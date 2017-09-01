@@ -3,8 +3,7 @@
 namespace CodeEdu\Book\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
-use CodeEdu\Book\Models\Category;
-use CodePub\Models\User;
+use CodeEdu\User\Models\User;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

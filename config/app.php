@@ -173,6 +173,7 @@ return [
 
         // Modules
         CodeEdu\Book\Providers\BookServiceProvider::class,
+        CodeEdu\User\Providers\UserServiceProvider::class,
 
         /*
          * Application Service Providers...
