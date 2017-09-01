@@ -11,5 +11,12 @@
         "psr-4": {
             "CodeEdu\\User\\": ""
         }
+    },
+    "require": {
+        "jrean/laravel-user-verification": "^4.1",
+        "laravel/framework": "5.4.*",
+        "laravelcollective/html": "^5.4",
+        "patricktalmadge/bootstrapper": "^5.10",
+        "prettus/l5-repository": "^2.6"
     }
 }

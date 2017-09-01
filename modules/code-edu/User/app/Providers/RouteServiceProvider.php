@@ -36,6 +36,8 @@ class RouteServiceProvider extends ServiceProvider
          if (!app()->routesAreCached()) {
              $router->group([
                  'middleware' => 'web',
+                 'prefix' => 'admin',
+                 'as' => 'codeeduuser.',
                  'namespace' => $this->rootUrlNamespace
              ], function() {
                  require __DIR__ . '/../Http/routes.php';

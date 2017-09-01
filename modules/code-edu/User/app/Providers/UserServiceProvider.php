@@ -4,6 +4,7 @@ namespace CodeEdu\User\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Foundation\AliasLoader;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -27,11 +28,20 @@ class UserServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerMiddlewares();
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
         $this->registerFactories();
         $this->publishMigrationsAndSeeders();
+    }
+
+    /**
+     * Register Middlewares
+     */
+    public function registerMiddlewares()
+    {
+        $this->app['router']->aliasMiddleware('isVerified', \Jrean\UserVerification\Middleware\IsVerified::class);
     }
 
     /**
@@ -41,9 +51,23 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerPackagesEnv();
+        $this->registerAliases();
+
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
     }
+
+    public function registerPackagesEnv()
+    {
+        $this->app->register(\Jrean\UserVerification\UserVerificationServiceProvider::class);
+    }
+
+    public function registerAliases()
+    {
+        AliasLoader::getInstance()->alias('UserVerification', \Jrean\UserVerification\Facades\UserVerification::class);
+    }
+
 
     /**
      * Register config.

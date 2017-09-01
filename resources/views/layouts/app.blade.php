@@ -45,6 +45,9 @@
                     [
                         Auth::user()->name,
                         [
+                            ['link' => route('codeeduuser.user.profile.edit'), 'title' => 'Minha Conta'],
+                            Navigation::NAVIGATION_DIVIDER,
+                            ['link' => route('codeeduuser.users.index'), 'title' => 'Usuários'],
                             [
                                 'link' => url('/logout'),
                                 'title' => 'Sair',

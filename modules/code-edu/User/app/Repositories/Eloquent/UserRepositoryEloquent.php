@@ -14,6 +14,48 @@ use CodePub\Validators\UserValidator;
  */
 class UserRepositoryEloquent extends BaseRepository implements UserRepository
 {
+
+    protected $fieldSearchable = [
+        'name' => 'like',
+        'email' => '='
+    ];
+
+    /**
+     * Create an User
+     *
+     * @param array $attributes
+     * @return mixed
+     */
+    public function create(array $attributes)
+    {
+        $attributes['password'] = User::generatePassword();
+        $user = parent::create($attributes);
+        \UserVerification::generate($user);
+
+        config([
+            'user-verification.email.view' => 'codeeduuser::emails.user-created'
+        ]);
+
+        \UserVerification::sendQueue($user, config('codeeduuser.emails.user_created.subject'));
+
+        return $user;
+    }
+
+    /**
+     * Update an User
+     *
+     * @param array $attributes
+     * @param $id
+     * @return mixed
+     */
+    public function update(array $attributes, $id)
+    {
+        if (array_key_exists('password', $attributes)) {
+            $attributes['password'] = User::generatePassword($attributes['password']);
+        }
+        return parent::update($attributes, $id);
+    }
+
     /**
      * Specify Model class name
      *
@@ -23,8 +65,6 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         return User::class;
     }
-
-    
 
     /**
      * Boot up the repository, pushing criteria
