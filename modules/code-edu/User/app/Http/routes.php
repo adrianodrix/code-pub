@@ -1,5 +1,5 @@
 <?php
-Route::group(['middleware'=> ['auth', 'isVerified']], function () {
+Route::group(['middleware'=> ['auth', 'isVerified', 'can:is-admin']], function () {
     Route::resource('users', 'UserController', ['except' => ['show']]);
 });
 

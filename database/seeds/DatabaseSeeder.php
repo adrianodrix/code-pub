@@ -11,8 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        \Illuminate\Database\Eloquent\Model::unguard();
+        \Schema::disableForeignKeyConstraints();
+
         $this->call(UsersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(BooksTableSeeder::class);
+
+        \Schema::enableForeignKeyConstraints();
+        \Illuminate\Database\Eloquent\Model::reguard();
     }
 }

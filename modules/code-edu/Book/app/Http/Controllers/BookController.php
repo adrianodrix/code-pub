@@ -81,7 +81,7 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = $this->repository->find($id);
-        if ($book->author->id != \Auth::user()->id) {
+        if (!\Gate::allows('update-book', $book)) {
             throw new AuthorizationException('This action is unauthorized.');
         }
 

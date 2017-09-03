@@ -4,6 +4,7 @@ namespace CodeEdu\User\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
 use CodeEdu\Book\Models\Book;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,7 +20,10 @@ class User extends Authenticatable implements TableInterface
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'verified'
     ];
 
     /**
@@ -78,5 +82,38 @@ class User extends Authenticatable implements TableInterface
     public static function generatePassword($password = null)
     {
         return is_null($password) ? bcrypt(str_random(8)) : bcrypt($password);
+    }
+
+    /**
+     * Return Roles of User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Has Role by User
+     *
+     * @param Collection|String $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return is_string($role) ?
+            $this->roles->contains('name', $role) :
+            (bool) $role->intersect($this->roles)->count();
+    }
+
+    /**
+     * Get Is Administrator
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole(config('codeeduuser.acl.role_admin'));
     }
 }

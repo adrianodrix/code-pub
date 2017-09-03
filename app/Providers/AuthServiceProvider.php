@@ -2,6 +2,7 @@
 
 namespace CodePub\Providers;
 
+use Aws\GameLift\Exception\GameLiftException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -25,6 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        \Gate::define('update-book', function ($user, $book) {
+            return ($user->id == $book->author_id);
+        });
+
+        \Gate::define('is-admin', function ($user) {
+            return $user->isAdmin();
+        });
     }
 }
