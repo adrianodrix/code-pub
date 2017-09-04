@@ -2,6 +2,12 @@
 
 namespace CodeEdu\User\Providers;
 
+use CodeEdu\User\Annotations\PermissionReader;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\CachedReader;
+use Doctrine\Common\Annotations\Reader;
+use Doctrine\Common\Cache\FilesystemCache;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Foundation\AliasLoader;
@@ -33,7 +39,17 @@ class UserServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->registerFactories();
+        $this->registerCommands();
         $this->publishMigrationsAndSeeders();
+    }
+
+    public function registerCommands()
+    {
+      if ($this->app->runningInConsole()) {
+        $this->commands([
+            \CodeEdu\User\Console\CreatePermissionCommand::class,
+        ]);
+      }
     }
 
     /**
@@ -42,6 +58,7 @@ class UserServiceProvider extends ServiceProvider
     public function registerMiddlewares()
     {
         $this->app['router']->aliasMiddleware('isVerified', \Jrean\UserVerification\Middleware\IsVerified::class);
+        $this->app['router']->aliasMiddleware('auth.resource', \CodeEdu\User\Http\Middleware\AuthorizationResourceMiddleware::class);
     }
 
     /**
@@ -53,7 +70,9 @@ class UserServiceProvider extends ServiceProvider
     {
         $this->registerPackagesEnv();
         $this->registerAliases();
+        $this->registerAnnotations();
 
+        $this->app->register(AuthServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
     }
@@ -133,16 +152,6 @@ class UserServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [];
-    }
-
-    /**
      * Register all migrations and seeders
      *
      */
@@ -155,5 +164,24 @@ class UserServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../database/seeders' => database_path('seeds')
         ], 'seeders');
+    }
+
+    public function registerAnnotations()
+    {
+        $loader = require base_path() .'/vendor/autoload.php';
+        AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+
+        $this->registerAnnotationReader();
+    }
+
+    public function registerAnnotationReader()
+    {
+        $this->app->bind(Reader::class, function () {
+           return new CachedReader(
+               new AnnotationReader(),
+               new FilesystemCache(storage_path('framework/cache/doctrine-annotations')),
+               $debug = config('app.debug')
+           );
+        });
     }
 }

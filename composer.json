@@ -7,6 +7,7 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "doctrine/annotations": "^1.5",
         "doctrine/dbal": "^2.6",
         "jrean/laravel-user-verification": "^4.1",
         "laravel/framework": "5.4.*",

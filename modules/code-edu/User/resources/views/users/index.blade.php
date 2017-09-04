@@ -16,8 +16,16 @@
         <div class="row">
             @if($users->count() > 0)
             {!!
-                Table::withContents($users->items())->striped()
-                ->callback('Actions', function ($field, $user){
+                Table::withContents($users->items())->striped()->hover()
+                ->callback('Perfis', function ($field, $user) {
+                    $string = '';
+                    foreach ($user->roles as $role) {
+                        $string .= \Label::normal($role->description);
+                        $string .= '&nbsp;';
+                    }
+                    return $string;
+                })
+                ->callback('Acões', function ($field, $user){
                     $linkEdit = route('codeeduuser.users.edit', ['user' => $user->id]);
 
                     if($user->id == \Auth::user()->id) {

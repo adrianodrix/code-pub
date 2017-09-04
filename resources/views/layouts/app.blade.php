@@ -48,6 +48,8 @@
                             ['link' => route('codeeduuser.user.profile.edit'), 'title' => 'Minha Conta'],
                             Navigation::NAVIGATION_DIVIDER,
                             ['link' => route('codeeduuser.users.index'), 'title' => 'Usuários'],
+                            ['link' => route('codeeduuser.roles.index'), 'title' => 'Perfil de Usuários'],
+                            Navigation::NAVIGATION_DIVIDER,
                             [
                                 'link' => url('/logout'),
                                 'title' => 'Sair',
@@ -71,7 +73,7 @@
 
         <div class="container">
             @if (Session::has('message'))
-                {!! Alert::{Session::get('message')['type']}(Session::get('message')['message'])->close() !!}
+                {!! Alert::{Session::get('message')['type']}(Session::get('message')['message'])->close() !!}--}}
             @endif
 
             @yield('content')

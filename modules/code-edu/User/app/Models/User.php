@@ -46,12 +46,14 @@ class User extends Authenticatable implements TableInterface
         return $this->hasMany(Book::class, 'author_id');
     }
 
-    /*public function books(){
-        return $this->hasMany(Book::class);
-    }*/
+    /**
+     * Get Table Headers
+     *
+     * @return array
+     */
     public function getTableHeaders()
     {
-        return ['#', 'Nome', 'E-mail', 'Roles'];
+        return ['#', 'Nome', 'E-mail'];
     }
 
     /**
@@ -69,8 +71,6 @@ class User extends Authenticatable implements TableInterface
                 return $this->name;
             case 'E-mail':
                 return $this->email;
-            case 'Roles':
-                return ''; //$this->roles->implode('name', ' | ');
         }
     }
 

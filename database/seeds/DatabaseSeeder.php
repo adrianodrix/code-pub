@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
         \Illuminate\Database\Eloquent\Model::unguard();
         \Schema::disableForeignKeyConstraints();
 
+        \Artisan::call('codeeduuser:make-permission');
+
         $this->call(UsersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(BooksTableSeeder::class);

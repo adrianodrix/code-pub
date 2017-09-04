@@ -3,13 +3,13 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <h3>Editar Usuário</h3>
+            <h3>Editar Perfil</h3>
 
             {!! Form::model($user, [
-                    'route' => ['codeeduuser.users.update', 'user' => $user->id
+                    'route' => ['codeeduuser.roles.update', 'user' => $user->id
                     ], 'class' => 'form', 'method' => 'PUT']) !!}
 
-            @include('codeeduuser::users._form')
+            @include('codeeduuser::roles._form')
 
             {!! Form::close() !!}
         </div>

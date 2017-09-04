@@ -1,6 +1,10 @@
 <?php
-Route::group(['middleware'=> ['auth', 'isVerified', 'can:is-admin']], function () {
+Route::group(['middleware'=> ['auth', 'isVerified', 'auth.resource']], function () {
     Route::resource('users', 'UserController', ['except' => ['show']]);
+    Route::resource('roles', 'RoleController', ['except' => ['show']]);
+
+    Route::get('roles/{role}/permissions', 'RoleController@editPermission')->name('roles.permissions.edit');
+    Route::put('roles/{role}/permissions', 'RoleController@updatePermission')->name('roles.permissions.update');
 });
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function () {

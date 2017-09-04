@@ -32,7 +32,7 @@ class BookRequest extends FormRequest
             $id = (int) $this->route('book');
             if ($id > 0) {
                 $book = $this->repository->find($id);
-                return \Gate::allows('update-book', $book);
+                return \Auth::user()->can('update', $book); // \Gate::allows('update-book', $book);
             } else {
                 return true;
             }

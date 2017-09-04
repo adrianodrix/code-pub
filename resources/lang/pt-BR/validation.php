@@ -151,7 +151,12 @@ return [
         'subtitle'              => 'sub-título',
         'name'                  => 'nome',
         'categories'            => 'categorias',
-        'categories_*'          => 'categorias :num'
+        'categories_*'          => 'categorias :num',
+        'role'                  => 'perfil',
+        'roles'                 => 'perfis',
+        'roles_*'               => 'perfil :num',
+        'permissions'           => 'permissões',
+        'permissions_*'         => 'permissão :num'
     ],
 
 ];

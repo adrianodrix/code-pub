@@ -1,9 +1,9 @@
 <?php
 
-namespace CodePub\Providers;
+namespace CodeEdu\Book\Providers;
 
-use Aws\GameLift\Exception\GameLiftException;
-use Illuminate\Support\Facades\Gate;
+use CodeEdu\Book\Models\Book;
+use CodeEdu\Book\Policies\BookPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,16 +14,12 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'CodePub\Model' => 'CodePub\Policies\ModelPolicy',
+        Book::class => BookPolicy::class,
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
     public function boot()
     {
         $this->registerPolicies();
+        //
     }
 }

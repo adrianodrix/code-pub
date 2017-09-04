@@ -2,7 +2,9 @@
 @section('content')
     <div class="row">
         <h1>Livros</h1>
-        {!! Button::primary('Novo Livro')->asLinkTo(route('books.create')) !!}
+        @can('books/new')
+            {!! Button::primary('Novo Livro')->asLinkTo(route('books.create')) !!}
+        @endcan
     </div>
     <div class="row">
         {!! Form::model(compact('search'), ['class' => 'form', 'method' => 'GET']) !!}
@@ -65,8 +67,14 @@ function getFormDestroy($book)
 
 function getLinkEdit($book)
 {
-    return Button::primary('Editar')
-            ->asLinkTo(route('books.edit', $book->id))
-            ->extraSmall();
+    if (\Auth::user()->can('update', $book)) {
+        return Button::primary('Editar')
+                ->asLinkTo(route('books.edit', $book->id))
+                ->extraSmall();
+    }
+
+    return Button::normal('Editar')
+            ->extraSmall()
+            ->disable();
 }
 ?>

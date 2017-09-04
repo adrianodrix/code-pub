@@ -1,10 +1,7 @@
-<?php
-
-namespace CodeEdu\User\Http\Controllers;
+<?php namespace CodeEdu\User\Http\Controllers;
 
 use CodeEdu\User\Http\Requests\UserSettingsRequest;
 use CodeEdu\User\Repositories\Contracts\UserRepository;
-use Illuminate\Routing\Controller;
 
 class UserSettingsController extends Controller
 {
@@ -18,8 +15,10 @@ class UserSettingsController extends Controller
     {
         $this->repository = $repository;
     }
+
     /**
      * Show the form for editing the specified resource.
+     *
      * @internal param User $user
      */
     public function edit()
@@ -40,7 +39,8 @@ class UserSettingsController extends Controller
 
         $this->repository->update($request->all(), $user->id);
 
-        $request->session()->flash('message', ['type' => 'info', 'message' => 'Usuário alterado com sucesso!']);
-        return redirect()->route('codeeduuser.user.profile.edit');
+        return redirect()
+            ->route('codeeduuser.user.profile.edit')
+            ->with('message', ['type' => 'info', 'message' => 'Usuário alterado com sucesso!']);
     }
 }

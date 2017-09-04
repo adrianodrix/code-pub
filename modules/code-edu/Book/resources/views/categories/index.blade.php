@@ -2,7 +2,9 @@
 @section('content')
     <div class="row">
         <h1>Categorias</h1>
+        @can('categories/new')
         {!! Button::primary('Nova Categoria')->asLinkTo(route('categories.create')) !!}
+        @endcan
     </div>
     <div class="row">
         {!! Form::model(compact('search'), ['class' => 'form', 'method' => 'GET']) !!}

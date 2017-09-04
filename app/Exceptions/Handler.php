@@ -15,7 +15,7 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
+        //\Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
@@ -44,6 +44,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            return redirect()
+                ->back()
+                ->with('message', ['type' => 'danger', 'message' => 'Esta ação não é autorizada!']);
+        }
+
         return parent::render($request, $exception);
     }
 

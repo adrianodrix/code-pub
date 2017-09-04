@@ -3,7 +3,6 @@
 namespace CodeEdu\User\Http\Controllers;
 
 use CodeEdu\User\Repositories\Contracts\UserRepository;
-use Illuminate\Routing\Controller;
 use Jrean\UserVerification\Traits\VerifiesUsers;
 
 class UserConfirmationController extends Controller

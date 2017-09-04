@@ -66,8 +66,9 @@ class BookController extends Controller
         $data['author_id'] = \Auth::user()->id;
         $this->repository->create($data);
 
-        $request->session()->flash('message', ['type' => 'success', 'message' => 'Novo Livro foi criado com sucesso.']);
-        return redirect()->to($request->get('redirect_to', route('books.index')));
+        return redirect()
+            ->to($request->get('redirect_to', route('books.index')))
+            ->with('message', ['type' => 'success', 'message' => 'Novo Livro foi criado com sucesso.']);
     }
 
     /**
@@ -81,9 +82,7 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = $this->repository->find($id);
-        if (!\Gate::allows('update-book', $book)) {
-            throw new AuthorizationException('This action is unauthorized.');
-        }
+        $this->authorize('update', $book);
 
         $categories = $this->categoryRepository->withTrashed()->listsWithMutators('name_trashed', 'id');
         return view('codeedubook::books.edit',compact('book', 'categories'));
@@ -101,8 +100,9 @@ class BookController extends Controller
         $data = $request->except(['author_id']);
         $this->repository->update($data, $id);
 
-        $request->session()->flash('message', ['type' => 'success', 'message' => 'O Livro foi atualizado com sucesso.']);
-        return redirect()->to($request->get('redirect_to', route('books.index')));
+        return redirect()
+            ->to($request->get('redirect_to', route('books.index')))
+            ->with('message', ['type' => 'success', 'message' => 'O Livro foi atualizado com sucesso.']);
     }
 
     /**
@@ -122,7 +122,8 @@ class BookController extends Controller
 
         $this->repository->delete($id);
 
-        \Session::flash('message', ['type' => 'warning', 'message' => 'Livro foi excluido com sucesso.']);
-        return redirect()->to(\URL::previous());
+        return redirect()
+            ->to(\URL::previous())
+            ->with('message', ['type' => 'warning', 'message' => 'Livro foi excluido com sucesso.']);
     }
 }

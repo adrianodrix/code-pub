@@ -30,6 +30,8 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         $attributes['password'] = User::generatePassword();
         $user = parent::create($attributes);
+        $user->roles()->sync($attributes['roles']);
+
         \UserVerification::generate($user);
 
         config([
@@ -53,7 +55,10 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
         if (array_key_exists('password', $attributes)) {
             $attributes['password'] = User::generatePassword($attributes['password']);
         }
-        return parent::update($attributes, $id);
+        $user = parent::update($attributes, $id);
+        $user->roles()->sync($attributes['roles']);
+
+        return $user;
     }
 
     /**
