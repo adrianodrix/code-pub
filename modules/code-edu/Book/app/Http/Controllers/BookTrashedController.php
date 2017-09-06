@@ -4,7 +4,14 @@ namespace CodeEdu\Book\Http\Controllers;
 
 use CodeEdu\Book\Repositories\Contracts\BookRepository;
 use Illuminate\Http\Request;
+use CodeEdu\User\Annotations\Mapping as Permission;
 
+/**
+ * Class BookTrashedController
+ *
+ * @Permission\Controller(name="trashed", description="Lixeira")
+ * @package CodeEdu\Book\Http\Controllers
+ */
 class BookTrashedController extends Controller
 {
     /**
@@ -24,6 +31,7 @@ class BookTrashedController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @Permission\Action(name="index", description="Consultar")
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -37,7 +45,7 @@ class BookTrashedController extends Controller
     /**
      * Mostra o livro da lixeira
      *
-     * @Permission\Action(name="list", description="View the Book")
+     * @Permission\Action(name="index", description="Consultar")
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -50,7 +58,7 @@ class BookTrashedController extends Controller
     /**
      * Restauração de Livros
      *
-     * @Permission\Action(name="restore", description="Book Restoration")
+     * @Permission\Action(name="restore", description="Restaurar")
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\RedirectResponse

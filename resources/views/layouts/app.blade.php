@@ -29,58 +29,70 @@
             }
 
             if (Auth::check()) {
-                $menu = Navigation::links([
-                    ['link' => route('categories.index'), 'title' => 'Categorias'],
-                    ['link' => route('books.index'), 'title' => 'Livros'],
-                ]);
-                $navBar->withContent($menu);
+                $menu = [
+                    ['link' => route('categories.index'), 'title' => 'Categorias', 'permission' => 'categories/index'],
+                    ['link' => route('books.index'), 'title' => 'Livros', 'permission' => 'books/index'],
+                ];
+                $navBar->withContent(Navigation::links(NavBarAuth::getLinksAuthorized($menu)));
 
-                $user = Navigation::right()->links([
+                $user = [
                     [
                         'Lixeira',
                         [
-                            ['link' => route('trashed.books.index'), 'title' => 'Livros'],
+                                ['link' => route('trashed.books.index'), 'title' => 'Livros', 'permission' => 'trashed/index'],
                         ]
                     ],
                     [
                         Auth::user()->name,
                         [
-                            ['link' => route('codeeduuser.user.profile.edit'), 'title' => 'Minha Conta'],
-                            Navigation::NAVIGATION_DIVIDER,
-                            ['link' => route('codeeduuser.users.index'), 'title' => 'Usuários'],
-                            ['link' => route('codeeduuser.roles.index'), 'title' => 'Perfil de Usuários'],
-                            Navigation::NAVIGATION_DIVIDER,
+                            ['link' => route('codeeduuser.user.profile.edit'), 'title' => 'Minha Conta', 'permission' => true],
+                            // Navigation::NAVIGATION_DIVIDER,
+                            ['link' => route('codeeduuser.users.index'), 'title' => 'Usuários', 'permission' => 'users/index'],
+                            ['link' => route('codeeduuser.roles.index'), 'title' => 'Perfil de Usuários', 'permission' => 'roles/index'],
+                            // Navigation::NAVIGATION_DIVIDER,
                             [
-                                'link' => url('/logout'),
+                                'link' => route('logout'),
                                 'title' => 'Sair',
+                                'permission' => true,
                                 'linkAttributes' => [
                                         'onclick' => "event.preventDefault();document.getElementById(\"logout-form\").submit();"
                                 ]
                             ]
                         ]
                     ]
-                ]);
-                $navBar->withContent($user);
+                ];
+
+                $navBar->withContent(Navigation::right()->links(NavBarAuth::getLinksAuthorized($user)));
             }
         ?>
 
         {!! $navBar !!}
         {!!
             Form::open(['url'=> route('logout'), 'id' => 'logout-form', 'style'=>'display:none']).
-            csrf_field().
+                csrf_field().
             Form::close()
         !!}
 
         <div class="container">
             @if (Session::has('message'))
-                {!! Alert::{Session::get('message')['type']}(Session::get('message')['message'])->close() !!}--}}
+                @if (isset(Session::get('message')['type']))
+                    {!! Alert::{Session::get('message')['type']}(Session::get('message')['message'])->close() !!}
+                @else
+                    {!! Alert::warning(Session::get('message'))->close() !!}
+                @endif
             @endif
 
             @yield('content')
         </div>
     </div>
-
+    <footer class="text-center">
+        <p>{{ config('app.name') }} &copy; {{ date('Y') }}</p>
+    </footer>
     <!-- Scripts -->
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace('content')
+    </script>
 </body>
 </html>

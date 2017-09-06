@@ -27,11 +27,12 @@ class PermissionReader
      */
     private function getControllers()
     {
-        $path = __DIR__ .'/../Http/Controllers';
         $files = [];
-        foreach (\File::allFiles($path) as $file) {
-            require_once $file->getRealPath();
-            $files [] = $file->getRealPath();
+        foreach (config('codeeduuser.path.controllers') as $path) {
+                foreach (\File::allFiles($path) as $file) {
+                require_once $file->getRealPath();
+                array_push($files, $file->getRealPath());
+            }
         }
         return $files;
     }

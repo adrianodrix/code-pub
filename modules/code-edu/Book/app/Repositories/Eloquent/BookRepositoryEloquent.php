@@ -2,6 +2,7 @@
 
 namespace CodeEdu\Book\Repositories\Eloquent;
 
+use CodeEdu\Book\Repositories\Criterias\FindByAuthorCriteria;
 use CodePub\Repositories\Eloquent\ValidatorException;
 use CodePub\Repositories\Traits\CriteriaTrashedTrait;
 use CodePub\Repositories\Traits\RepositoryRestoreTrait;
@@ -53,6 +54,8 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
      */
     public function update(array $attributes, $id)
     {
+        $attributes['published'] = isset($attributes['published']);
+
         $model = parent::update($attributes, $id);
         $model->categories()->sync($attributes['categories']);
         return $model;
@@ -76,5 +79,6 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+        $this->pushCriteria(app(FindByAuthorCriteria::class));
     }
 }

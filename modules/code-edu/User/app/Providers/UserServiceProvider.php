@@ -1,8 +1,5 @@
-<?php
+<?php namespace CodeEdu\User\Providers;
 
-namespace CodeEdu\User\Providers;
-
-use CodeEdu\User\Annotations\PermissionReader;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
@@ -85,6 +82,7 @@ class UserServiceProvider extends ServiceProvider
     public function registerAliases()
     {
         AliasLoader::getInstance()->alias('UserVerification', \Jrean\UserVerification\Facades\UserVerification::class);
+        AliasLoader::getInstance()->alias('NavBarAuth', \CodeEdu\User\Facade\NavBarAuthorizationFacade::class);
     }
 
 

@@ -22,7 +22,15 @@ class Book extends Model implements Transformable, TableInterface
      * @var array
      */
     protected $fillable = [
-        'title', 'subtitle', 'price', 'author_id'
+        'title',
+        'subtitle',
+        'price',
+        'author_id',
+        'dedication',
+        'description',
+        'website',
+        'percent_complete',
+        'published'
     ];
 
     protected $dates = [
@@ -88,5 +96,10 @@ class Book extends Model implements Transformable, TableInterface
     public function formCategoriesAttribute()
     {
         return $this->categories->pluck('id')->all();
+    }
+
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class);
     }
 }

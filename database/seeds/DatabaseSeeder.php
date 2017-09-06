@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(BooksTableSeeder::class);
+        $this->call(ChapterTableSeeder::class);
+        $this->call(ACLSeeder::class);
 
         \Schema::enableForeignKeyConstraints();
         \Illuminate\Database\Eloquent\Model::reguard();

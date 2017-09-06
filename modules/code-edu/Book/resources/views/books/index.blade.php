@@ -17,6 +17,11 @@
                 Table::withContents($books->items())
                     ->striped()
                     ->hover()
+                    ->callback('Completo', function($field, $book) {
+                        return $book->published ?
+                            Label::success('Publicado') :
+                            ProgressBar::info($book->percent_complete)->striped()->visible();
+                    })
                     ->callback('Ações', function($field, $book) {
                         return callbackTable($field, $book);
                     })
@@ -34,10 +39,12 @@
 function callbackTable($field, $book)
 {
     $linkEdit = getLinkEdit($book);
+    $linkChapters = getLinkChapters($book);
     $formDelete = getFormDestroy($book);
     $linkDestroy = getLinkDestroy($book);
 
     return "<ul class=\"list-inline\">
+                <li>$linkChapters</li>
                 <li>$linkEdit</li>
                 <li>$linkDestroy</li>
             </ul>
@@ -76,5 +83,12 @@ function getLinkEdit($book)
     return Button::normal('Editar')
             ->extraSmall()
             ->disable();
+}
+
+function getLinkChapters($book)
+{
+    return Button::success("Capítulos ({$book->chapters->count()})")
+            ->asLinkTo(route('chapters.index', ['book' => $book->id]))
+            ->extraSmall();
 }
 ?>

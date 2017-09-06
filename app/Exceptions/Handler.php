@@ -50,6 +50,12 @@ class Handler extends ExceptionHandler
                 ->with('message', ['type' => 'danger', 'message' => 'Esta ação não é autorizada!']);
         }
 
+        if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+            return redirect()
+                ->back()
+                ->with('message', ['type' => 'danger', 'message' => 'Não foi possível localizar o registro!']);
+        }
+
         return parent::render($request, $exception);
     }
 

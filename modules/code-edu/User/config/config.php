@@ -17,5 +17,11 @@ return [
     ],
     'acl' => [
         'role_admin' => env('ROLE_DEFAULT_ADMIN', 'Admin'),
+    ],
+    'path' => [
+        'controllers' => [
+            __DIR__ .'/../app/Http/Controllers',
+            base_path('modules/code-edu/Book/app/Http/Controllers'),
+        ]
     ]
 ];

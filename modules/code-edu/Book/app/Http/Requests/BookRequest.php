@@ -28,18 +28,7 @@ class BookRequest extends FormRequest
      */
     public function authorize()
     {
-        try {
-            $id = (int) $this->route('book');
-            if ($id > 0) {
-                $book = $this->repository->find($id);
-                return \Auth::user()->can('update', $book); // \Gate::allows('update-book', $book);
-            } else {
-                return true;
-            }
-        } catch (\Exception $e) {
-            return false;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -49,14 +38,17 @@ class BookRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route('book');
-
         return [
-            'title' => "required|max:200|unique:books,title,$id",
+            'title' => "required|max:200",
             'subtitle' => 'required|max:200',
             'price' => 'required|numeric|min:0',
             'categories' => "required|array",
             'categories.*' => 'exists:categories,id',
+            'dedication' => 'required',
+            'description' => 'required',
+            'website' => 'required|url',
+            'percent_complete' => 'required|integer',
+            'published' => 'boolean',
         ];
     }
 
