@@ -21,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
             return null;
         });
 
+        \Form::macro('check', function ($field, $value) {
+            return '<div class="checkbox checkbox-primary">'.
+                        \Form::checkbox($field, $value, $value, ['id' => $field]).
+                        '<label for="published">Publicado?</label>
+                    </div>';
+        });
+
         \Html::macro('openFormGroup', function($field = null, $errors = null){
             $result = false;
             if($field != null && $errors != null){

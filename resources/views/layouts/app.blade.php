@@ -11,6 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body style="padding-top: 70px;">
@@ -46,10 +47,10 @@
                         Auth::user()->name,
                         [
                             ['link' => route('codeeduuser.user.profile.edit'), 'title' => 'Minha Conta', 'permission' => true],
-                            // Navigation::NAVIGATION_DIVIDER,
+                            //Navigation::NAVIGATION_DIVIDER,
                             ['link' => route('codeeduuser.users.index'), 'title' => 'Usuários', 'permission' => 'users/index'],
                             ['link' => route('codeeduuser.roles.index'), 'title' => 'Perfil de Usuários', 'permission' => 'roles/index'],
-                            // Navigation::NAVIGATION_DIVIDER,
+                            //Navigation::NAVIGATION_DIVIDER,
                             [
                                 'link' => route('logout'),
                                 'title' => 'Sair',

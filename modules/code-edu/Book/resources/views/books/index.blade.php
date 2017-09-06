@@ -87,7 +87,8 @@ function getLinkEdit($book)
 
 function getLinkChapters($book)
 {
-    return Button::success("Capítulos ({$book->chapters->count()})")
+    $chapters = $book->chapters->count();
+    return Button::success("Capítulos <span class=\"badge\">{$chapters}</span>")
             ->asLinkTo(route('chapters.index', ['book' => $book->id]))
             ->extraSmall();
 }

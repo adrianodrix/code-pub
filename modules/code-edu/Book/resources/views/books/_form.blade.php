@@ -9,32 +9,32 @@
     {!! Form::error('categories', $errors) !!}
     {!! Form::error('categories.*', $errors) !!}
 {!! Html::closeFormGroup() !!}
-
-<div class="panel-heading">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab1default" data-toggle="tab">Descrição</a></li>
-        <li><a href="#tab2default" data-toggle="tab">Dedicatória</a></li>
-    </ul>
-</div>
-<div class="panel-body">
-    <div class="tab-content">
-        <div class="tab-pane fade in active" id="tab1default">
-            {!! Html::openFormGroup('description', $errors) !!}
-            {!! Form::label('description', 'Descrição',['class' =>'control-label']) !!}
-            {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
-            {!! Form::error('description', $errors) !!}
-            {!! Html::closeFormGroup() !!}
-        </div>
-        <div class="tab-pane fade" id="tab2default">
-            {!! Html::openFormGroup('dedication', $errors) !!}
-            {!! Form::label('dedication', 'Dedicatória',['class' =>'control-label']) !!}
-            {!! Form::textarea('dedication', null, ['class' => 'form-control']) !!}
-            {!! Form::error('dedication', $errors) !!}
-            {!! Html::closeFormGroup() !!}
+<div class="panel with-nav-tabs panel-default">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1default" data-toggle="tab">Descrição</a></li>
+            <li><a href="#tab2default" data-toggle="tab">Dedicatória</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab1default">
+                {!! Html::openFormGroup('description', $errors) !!}
+                {!! Form::label('description', 'Descrição',['class' =>'control-label']) !!}
+                {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
+                {!! Form::error('description', $errors) !!}
+                {!! Html::closeFormGroup() !!}
+            </div>
+            <div class="tab-pane fade" id="tab2default">
+                {!! Html::openFormGroup('dedication', $errors) !!}
+                {!! Form::label('dedication', 'Dedicatória',['class' =>'control-label']) !!}
+                {!! Form::textarea('dedication', null, ['class' => 'form-control']) !!}
+                {!! Form::error('dedication', $errors) !!}
+                {!! Html::closeFormGroup() !!}
+            </div>
         </div>
     </div>
 </div>
-
 {!! Html::openFormGroup('website', $errors) !!}
 {!! Form::label('website', 'Website',['class' =>'control-label']) !!}
 {!! Form::text('website', null, ['class' => 'form-control']) !!}
@@ -45,14 +45,10 @@
 {!! Form::label('percent_complete', 'Completo (%)',['class' =>'control-label']) !!}
 {!! Form::number('percent_complete', null, ['class' => 'form-control']) !!}
 {!! Form::error('percent_complete', $errors) !!}
-{!! Html::closeFormGroup() !!}
+{!! Html::closeFormGroup () !!}
 
-{!! Html::openFormGroup() !!}
-<label>
-    {!! Form::checkbox('published') !!} Publicado?
-</label>
-{!! Html::closeFormGroup() !!}
+{!! Form::check('published', isset($book->published) ? $book->published : false) !!}
 
 {!! Html::openFormGroup('submit', $errors) !!}
-    {!! Button::primary(isset($book) ? 'Editar Livro' : 'Criar Livro')->prependIcon(Icon::plus())->submit() !!}
+    {!! Button::primary(isset($book) ? 'Editar Livro' : 'Criar Livro')->prependIcon(Icon::floppyDisk())->submit() !!}
 {!! Html::closeFormGroup() !!}

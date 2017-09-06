@@ -18,6 +18,6 @@
 {!! Html::closeFormGroup() !!}
 
 {!! Html::openFormGroup('submit', $errors) !!}
-    {!! Button::primary(isset($chapter) ? 'Editar Capítulo' : 'Criar Capítulo')->prependIcon(Icon::plus())->submit() !!}
-    {!! Button::success('Cancelar')->prependIcon(Icon::newWindow())->asLinkTo(URL::previous()) !!}
+    {!! Button::primary(isset($chapter) ? 'Editar Capítulo' : 'Criar Capítulo')->prependIcon(Icon::floppyDisk())->submit() !!}
+    {!! Button::success('Cancelar')->prependIcon(Icon::floppyRemove())->asLinkTo(URL::previous()) !!}
 {!! Html::closeFormGroup() !!}
