@@ -21,3 +21,5 @@
     {!! Button::primary(isset($chapter) ? 'Editar Capítulo' : 'Criar Capítulo')->prependIcon(Icon::floppyDisk())->submit() !!}
     {!! Button::success('Cancelar')->prependIcon(Icon::floppyRemove())->asLinkTo(URL::previous()) !!}
 {!! Html::closeFormGroup() !!}
+
+@include('codeedubook::chapters._ckeditor')

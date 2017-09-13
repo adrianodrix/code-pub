@@ -90,10 +90,7 @@
         <p>{{ config('app.name') }} &copy; {{ date('Y') }}</p>
     </footer>
     <!-- Scripts -->
-    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('content')
-    </script>
+    @stack('scripts')
 </body>
 </html>
