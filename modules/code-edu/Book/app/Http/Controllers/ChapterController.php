@@ -85,7 +85,7 @@ class ChapterController extends Controller
         $data['book_id'] = $book->id;
         $this->repository->create($data);
 
-        $url = $request->get('redirect_to', route('chapters.index', ['book' => $book->id]));
+        $url = $request->get('redirect_to', route('books.chapters.index', ['book' => $book->id]));
         $request->session()->flash('message', ['type' => 'info', 'message' => 'Novo capítulo foi criado.']);
         return redirect()->to($url);
     }

@@ -40,11 +40,13 @@ function callbackTable($field, $book)
 {
     $linkEdit = getLinkEdit($book);
     $linkChapters = getLinkChapters($book);
+    $linkCover = getLinkCover($book);
     $formDelete = getFormDestroy($book);
     $linkDestroy = getLinkDestroy($book);
 
     return "<ul class=\"list-inline\">
                 <li>$linkChapters</li>
+                <li>$linkCover</li>
                 <li>$linkEdit</li>
                 <li>$linkDestroy</li>
             </ul>
@@ -89,7 +91,14 @@ function getLinkChapters($book)
 {
     $chapters = $book->chapters->count();
     return Button::success("Capítulos <span class=\"badge\">{$chapters}</span>")
-            ->asLinkTo(route('chapters.index', ['book' => $book->id]))
+            ->asLinkTo(route('books.chapters.index', ['book' => $book->id]))
+            ->extraSmall();
+}
+
+function getLinkCover($book)
+{
+    return Button::success("Capa")
+            ->asLinkTo(route('books.cover.create', ['book' => $book->id]))
             ->extraSmall();
 }
 ?>
