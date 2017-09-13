@@ -33,6 +33,7 @@ class BookServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->publishMigrationsAndSeeders();
+        $this->publishAssets();
     }
 
     /**
@@ -132,5 +133,12 @@ class BookServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../database/seeders' => database_path('seeds')
         ], 'seeders');
+    }
+
+    public function publishAssets()
+    {
+        $this->publishes([
+            __DIR__.'/../../resources/assets' => public_path()
+        ], 'assets');
     }
 }

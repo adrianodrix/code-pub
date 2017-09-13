@@ -4,7 +4,14 @@ namespace CodeEdu\Book\Http\Controllers;
 
 use CodeEdu\Book\Http\Requests\CategoryRequest;
 use CodeEdu\Book\Repositories\Contracts\CategoryRepository;
+use CodeEdu\User\Annotations\Mapping as Permission;
 
+/**
+ * Class BookController
+ *
+ * @Permission\Controller(name="categories", description="Categorias")
+ * @package CodeEdu\Book\Http\Controllers
+ */
 class CategoryController extends Controller
 {
     /**
@@ -27,6 +34,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @Permission\Action(name="index", description="Consultar")
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -38,6 +46,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @Permission\Action(name="new", description="Novo")
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -48,6 +57,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @Permission\Action(name="new", description="Novo")
      * @param \CodeEdu\Book\Http\Requests\CategoryRequest|\Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -62,6 +72,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @Permission\Action(name="update", description="Editar")
      * @param int $id
      * @return \Illuminate\Http\Response
      */
@@ -74,6 +85,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @Permission\Action(name="update", description="Editar")
      * @param CategoryRequest|\Illuminate\Http\Request $request
      * @param int $id
      * @return \Illuminate\Http\Response
@@ -89,6 +101,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @Permission\Action(name="delete", description="Excluir")
      * @param int $id
      * @return \Illuminate\Http\Response
      */

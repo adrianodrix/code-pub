@@ -22,6 +22,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(\CodeEdu\Book\Repositories\Contracts\CategoryRepository::class, \CodeEdu\Book\Repositories\Eloquent\CategoryRepositoryEloquent::class);
         $this->app->bind(\CodeEdu\Book\Repositories\Contracts\BookRepository::class, \CodeEdu\Book\Repositories\Eloquent\BookRepositoryEloquent::class);
+        $this->app->bind(\CodeEdu\Book\Repositories\Contracts\ChapterRepository::class, \CodeEdu\Book\Repositories\Eloquent\ChapterRepositoryEloquent::class);
     }
 
     /**

@@ -30,6 +30,10 @@ class CreateAclData extends Migration
         $user = \CodeEdu\User\Models\User::where('email', config('codeeduuser.user_default.email'))->first();
 
         $user->roles()->detach($roleAdmin->id);
+        $user->roles()->detach($roleAdmin->id);
+
+        $roleAdmin->permissions()->detach();
+        $roleAdmin->users()->detach();
         $roleAdmin->delete();
     }
 }

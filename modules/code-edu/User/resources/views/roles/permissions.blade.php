@@ -24,12 +24,12 @@
                                 ?>
                                 @foreach($permissionsSubGroup as $permission)
                                     <li>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input
-                                                    type="checkbox" name="permissions[]" value="{{ $permission->id }}"
+                                        <div class="checkbox checkbox-primary">
+                                            <input
+                                                    type="checkbox" name="permissions[]" id="permissions-{{ $permission->id }}" value="{{ $permission->id }}"
                                                     {{ $role->permissions->contains('id', $permission->id) ? 'checked="checked"' : '' }}
-                                                />
+                                            />
+                                            <label for="permissions-{{ $permission->id }}">
                                                 {{ $permission->resource_description }}
                                             </label>
                                         </div>

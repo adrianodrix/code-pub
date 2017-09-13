@@ -13,7 +13,7 @@ class CreatePermissionCommand extends Command
      *
      * @var string
      */
-    protected $name = 'codeeduuser:make-permission';
+    protected $signature = 'codeeduuser:make-permission';
 
     /**
      * The console command description.
@@ -49,6 +49,7 @@ class CreatePermissionCommand extends Command
     public function fire()
     {
         $count = 0;
+
         foreach (PermissionReader::getPermissions() as $permission) {
             if(!$this->existsPermission($permission)) {
                 $count++;

@@ -10,5 +10,12 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface RoleRepository extends RepositoryInterface
 {
-    //
+    /**
+     * Update Permissions
+     *
+     * @param array $permissions
+     * @param $id
+     * @return $this
+     */
+    public function updatePermissions(array $permissions, $id);
 }

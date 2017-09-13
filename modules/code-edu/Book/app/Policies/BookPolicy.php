@@ -8,6 +8,13 @@ class BookPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user, $ability)
+    {
+        if ($user->can('books/all')) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can view the book.
      *

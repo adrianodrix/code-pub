@@ -52,5 +52,4 @@ class RoleRepositoryEloquent extends BaseRepository implements RoleRepository
         }
         return $model;
     }
-
 }
