@@ -3,6 +3,8 @@
 namespace CodeEdu\Book\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
+use CodeEdu\Book\Models\Traits\BookStorageTrait;
+use CodeEdu\Book\Models\Traits\BookThumbnailTrait;
 use CodeEdu\User\Models\User;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +16,9 @@ class Book extends Model implements Transformable, TableInterface
 {
     use TransformableTrait,
         FormAccessible,
-        SoftDeletes;
+        SoftDeletes,
+        BookStorageTrait,
+        BookThumbnailTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -60,9 +64,22 @@ class Book extends Model implements Transformable, TableInterface
      */
     public function getValueForHeader($header)
     {
+        $title = $this->title;
+        if (strlen($title) > 50) {
+            $characters = floor(50 / 2);
+            $title = substr($title, 0, $characters) . '...' . substr($title, -1 * $characters);
+        }
+
         switch ($header) {
             case 'Código': return $this->id;
-            case 'Título': return $this->title;
+            case 'Título':
+                if (file_exists($this->zip_file)) {
+                    return \Html::link(
+                        route('books.download', ['book' => $this->id]),
+                        $this->title,
+                        ['target' => '_blank']);
+                }
+                return $this->title;
             case 'Autor': return $this->author->name;
             case 'Preço': return $this->price;
         }

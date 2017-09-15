@@ -3,9 +3,11 @@
 namespace CodeEdu\Book\Http\Controllers;
 
 use CodeEdu\Book\Http\Requests\BookRequest;
+use CodeEdu\Book\Jobs\GenerateBook;
 use CodeEdu\Book\Models\Book;
 use CodeEdu\Book\Repositories\Contracts\BookRepository;
 use CodeEdu\Book\Repositories\Contracts\CategoryRepository;
+use CodeEdu\Book\Services\BookExport;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use CodeEdu\User\Annotations\Mapping as Permission;
@@ -139,8 +141,32 @@ class BookController extends Controller
      * @Permission\Action(name="all", description="Gerenciar todos os Livros")
      * @return void
      */
-    public function all()
+    public function all(){}
+
+    /**
+     * Export Book
+     *
+     * @Permission\Action(name="export", description="Exportar")
+     * @param Book $book
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function export(Book $book)
     {
-        //
+        dispatch(new GenerateBook($book));
+        return redirect()
+            ->route('books.index')
+            ->with('message', ['type' => 'success', 'message' => 'Livro esta sendo gerado. Aguarde notificação!']);
+    }
+
+    /**
+     * Download zip file
+     *
+     * @Permission\Action(name="download", description="Baixar")
+     * @param Book $book
+     * @return mixed
+     */
+    public function download(Book $book)
+    {
+        return response()->download($book->zip_file);
     }
 }

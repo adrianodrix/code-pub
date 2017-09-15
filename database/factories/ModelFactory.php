@@ -46,13 +46,14 @@ $factory->define(\CodeEdu\Book\Models\Book::class, function (Faker\Generator $fa
         'dedication' => $faker->sentences(3, true),
         'description' => $faker->sentences(3, true),
         'website' => $faker->url,
-        'porcent_complete' => $faker->randomNumber(100)
+        'percent_complete' => $faker->randomNumber(2)
     ];
 });
 
 $factory->define(\CodeEdu\Book\Models\Chapter::class, function (Faker\Generator $faker) {
+    $faker->addProvider(new \CodeEdu\Book\Fakers\ChapterFakerProvider($faker));
     return [
         'name' => $faker->unique()->sentences(2, true),
-        'content' => $faker->paragraph(10, true)
+        'content' => $faker->markdown(rand(2,6))
     ];
 });

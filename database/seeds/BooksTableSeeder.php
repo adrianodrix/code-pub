@@ -13,10 +13,10 @@ class BooksTableSeeder extends Seeder
     {
         $collection = app(\CodeEdu\Book\Repositories\Contracts\CategoryRepository::class)->all();
 
-        factory(\CodeEdu\Book\Models\Book::class,50)
+        factory(\CodeEdu\Book\Models\Book::class, 30)
             ->create()
             ->each(function($book) use ($collection) {
-                $book->categories()->sync($collection->random(4)->pluck('id')->all());
+                $book->categories()->sync($collection->random(4)->pluck('id'));
             });
     }
 }

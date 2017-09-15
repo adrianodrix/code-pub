@@ -2,6 +2,7 @@
 
 namespace CodeEdu\Book\Providers;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -46,6 +47,10 @@ class BookServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
+
+        // Vendors
+        $this->app->register(\Folklore\Image\ImageServiceProvider::class);
+        AliasLoader::getInstance()->alias('FImage', \Folklore\Image\Facades\Image::class);
     }
 
     /**

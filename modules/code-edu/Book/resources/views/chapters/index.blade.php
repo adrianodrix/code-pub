@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <h3>{{$book->title}}</h3>
-            {!! Button::primary('Novo Capítulo')->asLinkTo(route('chapters.create', ['book' => $book->id])) !!}
+            {!! Button::primary('Novo Capítulo')->asLinkTo(route('books.chapters.create', ['book' => $book->id])) !!}
         </div>
         <br>
         <div class="row">
@@ -17,10 +17,10 @@
             {!!
                 Table::withContents($chapters->items())->striped()
                 ->callback('Ações', function ($field, $chapter) use($book) {
-                    $linkEdit = route('chapters.edit', ['book' => $book->id, 'chapter' => $chapter->id]);
-                    $linkDestroy = route('chapters.destroy', ['book' => $book->id, 'chapter' => $chapter->id]);
+                    $linkEdit = route('books.chapters.edit', ['book' => $book->id, 'chapter' => $chapter->id]);
+                    $linkDestroy = route('books.chapters.destroy', ['book' => $book->id, 'chapter' => $chapter->id]);
                     $deleteForm = "delete-form-{$chapter->id}";
-                    $form = Form::open(['route'     => ['chapters.destroy', 'book' => $book->id, 'chapter' => $chapter->id],
+                    $form = Form::open(['route'     => ['books.chapters.destroy', 'book' => $book->id, 'chapter' => $chapter->id],
                                             'method'    => 'DELETE',
                                             'id'        => $deleteForm ,
                                             'style'     => 'display:none']) .
