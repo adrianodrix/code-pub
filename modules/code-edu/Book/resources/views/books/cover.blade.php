@@ -12,7 +12,7 @@
             {!! Form::hidden('redirect_to', URL::previous()) !!}
 
             {!! Html::openFormGroup('file', $errors) !!}
-            {!! Form::label('file', 'Capa do Livro (aceita somente formato: .jpg )') !!}
+            {!! Form::label('file', 'Informe uma imagem para capa do livro (aceita somente imagens jpeg') !!}
             {!! Form::file('file', ['class' => 'form-control']) !!}
             {!! Form::error('file', $errors) !!}
             {!! Html::closeFormGroup() !!}

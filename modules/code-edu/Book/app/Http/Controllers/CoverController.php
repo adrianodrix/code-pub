@@ -1,7 +1,8 @@
 <?php namespace CodeEdu\Book\Http\Controllers;
 
+use CodeEdu\Book\Http\Requests\CoverRequest;
 use CodeEdu\Book\Models\Book;
-use Illuminate\Http\Request;
+use CodeEdu\Book\Services\CoverUpload;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use CodeEdu\User\Annotations\Mapping as Permission;
@@ -13,16 +14,7 @@ use CodeEdu\User\Annotations\Mapping as Permission;
  */
 class CoverController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
-    {
-        return view('book::index');
-    }
-
-    /**
+     /**
      * Show the form for creating a new resource.
      *
      * @Permission\Action(name="update", description="Editar")
@@ -37,45 +29,16 @@ class CoverController extends Controller
      * Store a newly created resource in storage.
      *
      * @Permission\Action(name="update", description="Editar")
-     * @param  Request $request
+     * @param  CoverRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CoverRequest $request, Book $book, CoverUpload $upload)
     {
-    }
+        $upload->upload($book, $request->file('file'));
 
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('book::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('book::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+        $url = $request->get('redirect_to', route('books.index'));
+        return redirect()
+            ->to($url)
+            ->with('message', ['type' => 'info', 'message' => 'Capa de livro salva com sucesso!']);
     }
 }

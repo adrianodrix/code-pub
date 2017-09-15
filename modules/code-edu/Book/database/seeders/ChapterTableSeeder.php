@@ -13,12 +13,11 @@ class ChapterTableSeeder extends \Illuminate\Database\Seeder
 
         foreach (\CodeEdu\Book\Models\Book::all() as $book)
         {
-            $order = 0;
-            factory(\CodeEdu\Book\Models\Chapter::class, 10)->make()->each(function($chapter) use ($book, $order){
+            foreach (factory(\CodeEdu\Book\Models\Chapter::class, 5)->make() as $key => $chapter) {
                 $chapter->book_id = $book->id;
-                $chapter->order = $order++;
+                $chapter->order = $key + 1;
                 $chapter->save();
-            });
+            }
         }
     }
 }

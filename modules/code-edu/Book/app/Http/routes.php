@@ -9,6 +9,8 @@ Route::group(['middleware'=> ['auth', 'isVerified', 'auth.resource']], function 
     });
     
     Route::resource('books', 'BookController', ['except' => ['show'] ]);
+    Route::post('books/{book}/export', 'BookController@export')->name('books.export');
+    Route::get('books/{book}/download', 'BookController@download')->name('books.download');
 
     Route::group(['prefix' => 'trashed', 'as' => 'trashed.'], function () {
         Route::resource('books', 'BookTrashedController',['only' => ['index', 'show', 'update'] ]);
