@@ -116,4 +116,14 @@ class User extends Authenticatable implements TableInterface
     {
         return $this->hasRole(config('codeeduuser.acl.role_admin'));
     }
+
+    /**
+     * Get phone cell to User
+     *
+     * @return string
+     */
+    public function routeNotificationForNexmo()
+    {
+        return '5544997563119';
+    }
 }
