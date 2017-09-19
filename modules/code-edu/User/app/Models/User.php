@@ -116,4 +116,15 @@ class User extends Authenticatable implements TableInterface
     {
         return $this->hasRole(config('codeeduuser.acl.role_admin'));
     }
+
+    /**
+     * Route notifications for the Nexmo channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForNexmo()
+    {
+        // return $this->phone;
+        return '5544997563119';
+    }
 }

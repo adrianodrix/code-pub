@@ -5,6 +5,7 @@ namespace CodeEdu\Book\Http\Controllers;
 use CodeEdu\Book\Http\Requests\BookRequest;
 use CodeEdu\Book\Jobs\GenerateBook;
 use CodeEdu\Book\Models\Book;
+use CodeEdu\Book\Notifications\BookExportedNotification;
 use CodeEdu\Book\Repositories\Contracts\BookRepository;
 use CodeEdu\Book\Repositories\Contracts\CategoryRepository;
 use CodeEdu\Book\Services\BookExport;
@@ -153,6 +154,7 @@ class BookController extends Controller
     public function export(Book $book)
     {
         dispatch(new GenerateBook($book));
+
         return redirect()
             ->route('books.index')
             ->with('message', ['type' => 'success', 'message' => 'Livro esta sendo gerado. Aguarde notificação!']);

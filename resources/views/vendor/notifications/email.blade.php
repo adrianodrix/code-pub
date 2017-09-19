@@ -23,7 +23,7 @@
         case 'success':
             $color = 'green';
             break;
-        case 'error':Hello
+        case 'error':
             $color = 'red';
             break;
         default:
@@ -45,7 +45,8 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-Atenciosamente,<br>{{ config('app.name') }}
+Atenciosamente,<br/>
+{{ config('app.name') }}
 @endif
 
 {{-- Subcopy --}}

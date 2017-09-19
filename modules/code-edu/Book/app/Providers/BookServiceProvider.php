@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factory;
 
 class BookServiceProvider extends ServiceProvider
 {
-    /**
+    /**'
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
@@ -142,8 +142,12 @@ class BookServiceProvider extends ServiceProvider
 
     public function publishAssets()
     {
+        $sourcePath = __DIR__.'/../../resources/assets/js';
+        $libPath =   __DIR__.'/../../resources/assets/lib';
+
         $this->publishes([
-            __DIR__.'/../../resources/assets' => public_path()
+            $sourcePath => public_path('js'),
+            $libPath => base_path('resources/assets/js/vendor')
         ], 'assets');
     }
 }

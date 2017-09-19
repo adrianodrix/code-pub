@@ -17,6 +17,8 @@
         "laravelcollective/html": "^5.4",
         "folklore/image": "^0.3.20",
         "patricktalmadge/bootstrapper": "^5.10",
-        "prettus/l5-repository": "^2.6"
+        "prettus/l5-repository": "^2.6",
+        "nexmo/client": "^1.0",
+        "pusher/pusher-php-server": "^3.0"
     }
 }
