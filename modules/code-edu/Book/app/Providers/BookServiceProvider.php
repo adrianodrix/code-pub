@@ -50,6 +50,7 @@ class BookServiceProvider extends ServiceProvider
 
         // Vendors
         $this->app->register(\Folklore\Image\ImageServiceProvider::class);
+        $this->app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
         AliasLoader::getInstance()->alias('FImage', \Folklore\Image\Facades\Image::class);
     }
 

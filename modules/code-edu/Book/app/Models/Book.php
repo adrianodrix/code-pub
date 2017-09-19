@@ -7,6 +7,8 @@ use CodeEdu\Book\Models\Traits\BookStorageTrait;
 use CodeEdu\Book\Models\Traits\BookThumbnailTrait;
 use CodeEdu\User\Models\User;
 use Collective\Html\Eloquent\FormAccessible;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
@@ -18,7 +20,9 @@ class Book extends Model implements Transformable, TableInterface
         FormAccessible,
         SoftDeletes,
         BookStorageTrait,
-        BookThumbnailTrait;
+        BookThumbnailTrait,
+        Sluggable,
+        SluggableScopeHelpers;
 
     /**
      * The attributes that are mass assignable.
@@ -118,5 +122,19 @@ class Book extends Model implements Transformable, TableInterface
     public function chapters()
     {
         return $this->hasMany(Chapter::class);
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
 }

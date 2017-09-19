@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="content col-md-9">
-        <h2>Livros Preferidos</h2>
+        <h2>Categoria: {{$category->name}}</h2>
         <div class="col-md-12">
             @foreach($products as $product)
                 <div class="col-md-3 book-home">
@@ -21,4 +21,4 @@
             @endforeach
         </div>
     </div>
-    @endsection
+@endsection

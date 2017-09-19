@@ -31,28 +31,22 @@
                 ->top();
 
             if (Auth::guest()) {
-                $linksGuest = Navigation::right()->links([
-                        ['link' => route('login'), 'title' => 'Entrar'],
-                        ['link' => route('register'), 'title' => 'Cadastre-se'],
-                ]);
-                $navBar->withContent($linksGuest);
-
-                $formSearch = Form::open(['url' => route('store.index'), 'class' => 'form-inline form-search navbar-right', 'method' => 'GET']).
+                $formSearch = Form::open(['url' => route('store.search'), 'class' => 'form-inline form-search navbar-left', 'method' => 'GET']).
                         Html::openFormGroup().
-                        InputGroup::withContents(Form::text('search', null, ['class' => 'form-control']))
+                        InputGroup::withContents(Form::text('q', null, ['class' => 'form-control']))
                                 ->append(Form::submit('', ['class' => 'btn-search'])).
                         Form::close();
                 $menuRight = Navigation::pills([
                         [
-                                'link' => url('/register'),
+                                'link' => route('register'),
                                 'title' => 'Registrar',
                                 'linkAttributes' => [
                                         'class' => 'btnnew btnnew-default'
                                 ]
                         ],
                         [
-                                'link' => url('/login'),
-                                'title' => 'Login',
+                                'link' => route('login'),
+                                'title' => 'Entrar',
                                 'linkAttributes' => [
                                         'class' => 'btnnew btnnew-default'
                                 ]
@@ -115,7 +109,11 @@
                 @endif
             @endif
 
-            @yield('content')
+            @yield('banner')
+            @yield('menu')
+            <section>
+                @yield('content')
+            </section>
         </div>
     </div>
     <footer class="text-center">

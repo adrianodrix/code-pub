@@ -18,7 +18,9 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(\CodeEdu\Store\Repositories\Contracts\CategoryRepository::class, \CodeEdu\Store\Repositories\Eloquent\CategoryRepositoryEloquent::class);
+        $this->app->bind(\CodeEdu\Store\Repositories\Contracts\ProductRepository::class, \CodeEdu\Store\Repositories\Eloquent\ProductRepositoryEloquent::class);
+        //:end-bindings;
     }
 
     /**
