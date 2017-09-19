@@ -19,6 +19,7 @@
         "patricktalmadge/bootstrapper": "^5.10",
         "prettus/l5-repository": "^2.6",
         "nexmo/client": "^1.0",
-        "pusher/pusher-php-server": "^3.0"
+        "pusher/pusher-php-server": "^3.0",
+        "cviebrock/eloquent-sluggable": "4.2.*",
     }
 }

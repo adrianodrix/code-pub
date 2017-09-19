@@ -46,7 +46,8 @@ $factory->define(\CodeEdu\Book\Models\Book::class, function (Faker\Generator $fa
         'dedication' => $faker->sentences(3, true),
         'description' => $faker->sentences(3, true),
         'website' => $faker->url,
-        'percent_complete' => $faker->randomNumber(2)
+        'percent_complete' => $faker->randomNumber(2),
+        'published' => $faker->randomElement([0, 1])
     ];
 });
 

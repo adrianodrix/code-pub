@@ -4,6 +4,8 @@ namespace CodeEdu\Book\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
 use CodeEdu\Book\Models\Book;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
@@ -12,7 +14,9 @@ use Prettus\Repository\Traits\TransformableTrait;
 class Category extends Model implements Transformable, TableInterface
 {
     use TransformableTrait,
-        SoftDeletes;
+        SoftDeletes,
+        Sluggable,
+        SluggableScopeHelpers;
 
     protected $fillable = ['name'];
 
@@ -69,4 +73,17 @@ class Category extends Model implements Transformable, TableInterface
         return $this->trashed() ? "{$this->name} (Inativa)" : $this->name ;
     }
 
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
 }

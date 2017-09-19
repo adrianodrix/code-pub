@@ -13,6 +13,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('/css/store.css') }}" rel="stylesheet">
 
     <script>
         window.Laravel = <?php echo json_encode([
@@ -25,16 +26,33 @@
 <body style="padding-top: 70px;">
     <div id="app">
         <?php
-            $navBar = Navbar::withBrand(config('app.name', 'Laravel'), url('/'))
-                ->inverse()
+            $appName = config('app.name');
+            $navBar = Navbar::withBrand("<img src=\"/img/logo.png\" title=\"$appName\" alt=\"$appName\"> ", url('/'))
                 ->top();
 
             if (Auth::guest()) {
-                $linksGuest = Navigation::right()->links([
-                        ['link' => route('login'), 'title' => 'Entrar'],
-                        ['link' => route('register'), 'title' => 'Cadastre-se'],
-                ]);
-                $navBar->withContent($linksGuest);
+                $formSearch = Form::open(['url' => route('store.search'), 'class' => 'form-inline form-search navbar-left', 'method' => 'GET']).
+                        Html::openFormGroup().
+                        InputGroup::withContents(Form::text('q', null, ['class' => 'form-control']))
+                                ->append(Form::submit('', ['class' => 'btn-search'])).
+                        Form::close();
+                $menuRight = Navigation::pills([
+                        [
+                                'link' => route('register'),
+                                'title' => 'Registrar',
+                                'linkAttributes' => [
+                                        'class' => 'btnnew btnnew-default'
+                                ]
+                        ],
+                        [
+                                'link' => route('login'),
+                                'title' => 'Entrar',
+                                'linkAttributes' => [
+                                        'class' => 'btnnew btnnew-default'
+                                ]
+                        ],
+                ])->right()->render();
+                $navBar->withContent($menuRight)->withContent("<div>$formSearch</div>");
             }
 
             if (Auth::check()) {
@@ -91,7 +109,11 @@
                 @endif
             @endif
 
-            @yield('content')
+            @yield('banner')
+            @yield('menu')
+            <section>
+                @yield('content')
+            </section>
         </div>
     </div>
     <footer class="text-center">
