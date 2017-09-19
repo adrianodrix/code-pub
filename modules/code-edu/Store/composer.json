@@ -1,0 +1,15 @@
+{
+    "name": "code-edu/store",
+    "description": "",
+    "authors": [
+        {
+            "name": "Adriano Santos",
+            "email": "adrianodrix@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CodeEdu\\Store\\": ""
+        }
+    }
+}

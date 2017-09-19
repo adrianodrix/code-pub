@@ -36935,7 +36935,6 @@ bookNotification.init();
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo__ = __webpack_require__("./node_modules/laravel-echo/dist/echo.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_laravel_echo__);
-
 window._ = __webpack_require__("./node_modules/lodash/lodash.js");
 
 /**
@@ -37015,11 +37014,19 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/assets/sass/store.scss":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./resources/assets/js/app.js");
-module.exports = __webpack_require__("./resources/assets/sass/app.scss");
+__webpack_require__("./resources/assets/sass/app.scss");
+module.exports = __webpack_require__("./resources/assets/sass/store.scss");
 
 
 /***/ })

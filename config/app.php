@@ -172,8 +172,9 @@ return [
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
 
         // Modules
-        CodeEdu\Book\Providers\BookServiceProvider::class,
         CodeEdu\User\Providers\UserServiceProvider::class,
+        CodeEdu\Book\Providers\BookServiceProvider::class,
+        CodeEdu\Store\Providers\StoreServiceProvider::class,
 
         /*
          * Application Service Providers...
