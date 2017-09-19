@@ -1,5 +1,6 @@
 <?php namespace CodeEdu\Book\Jobs;
 
+use CodeEdu\Book\Notifications\BookExportedNotification;
 use CodeEdu\Book\Services\BookExport;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -29,6 +30,7 @@ class GenerateBook implements ShouldQueue
      * Execute the job.
      *
      * @param BookExport $bookExport
+     * @throws \Exception
      */
     public function handle(BookExport $bookExport)
     {
@@ -42,6 +44,10 @@ class GenerateBook implements ShouldQueue
             exec("php " . base_path("$easyBookCmd ebook"));
 
             $bookExport->compress($this->book);
+
+            $this->book->author->notify(
+                new BookExportedNotification($this->book->author, $this->book)
+            );
         } catch (\Exception $e) {
             $this->fail($e);
             throw $e;

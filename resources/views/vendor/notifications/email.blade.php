@@ -23,7 +23,7 @@
         case 'success':
             $color = 'green';
             break;
-        case 'error':Hello
+        case 'error':
             $color = 'red';
             break;
         default:

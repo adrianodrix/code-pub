@@ -48,6 +48,25 @@
     </div>
 @endsection
 
+@push('scripts')
+<script type="text/javascript">
+    function exportBook(route){
+        window.$.ajax({
+            url:  route,
+            method: 'POST',
+            data: {
+                _token: window.Laravel.csrfToken
+            },
+            success: function(data) {
+                window.$.notify({message:'Processo de exportação de livros foi iniciado!<br/>' +
+                        'Você será avisado quando terminar'},
+                        {type: 'success'});
+            }
+        });
+    }
+</script>
+@endpush
+
 <?php
 function callbackTable($field, $book)
 {
@@ -58,7 +77,7 @@ function callbackTable($field, $book)
     $formDelete = getFormDestroy($book);
     $linkDestroy = getLinkDestroy($book);
 
-    $formExport = getFormExport($book);
+    //$formExport = getFormExport($book);
     $linkExport = getLinkExport($book);
 
     return "<ul class=\"list-inline\">
@@ -68,8 +87,7 @@ function callbackTable($field, $book)
                 <li>$linkEdit</li>
                 <li>$linkDestroy</li>
             </ul>
-            $formDelete
-            $formExport";
+            $formDelete";
 }
 
 function getLinkDestroy($book)
@@ -124,13 +142,12 @@ function getLinkCover($book)
 function getLinkExport($book)
 {
     $linkExport = route('books.export', ['book' => $book->id]);
-    $exportFormId = "export-form-{$book->id}";
 
     return Button::success(\Icon::download() .' Exportar')
             ->asLinkto($linkExport)
             ->extraSmall()
             ->addAttributes([
-                    'onclick' => "event.preventDefault(); document.getElementById(\"{$exportFormId}\").submit();"
+                    'onclick' => "event.preventDefault(); exportBook(\"$linkExport\");"
             ]);
 
 }

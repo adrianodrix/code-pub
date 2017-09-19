@@ -3,6 +3,7 @@
 use CodeEdu\Book\Models\Book;
 use CodeEdu\User\Models\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,6 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class BookExportedNotification extends Notification
 {
     use Queueable;
+
     /**
      * @var User
      */
@@ -37,7 +39,11 @@ class BookExportedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'nexmo', 'broadcast'];
+        return [
+            'broadcast',
+            'mail',
+            'nextmo'
+        ];
     }
 
     /**
@@ -56,19 +62,34 @@ class BookExportedNotification extends Notification
             ->line('Obrigado por usar a nossa aplicação');
     }
 
+
     /**
-     * Get the sms representation of the notification.
+     * Get the Nexmo / SMS representation of the notification.
      *
-     * @param $notifiable
-     * @return \Illuminate\Notifications\Messages\NexmoMessage
+     * @param  mixed  $notifiable
+     * @return NexmoMessage
      */
     public function toNexmo($notifiable)
     {
         return (new NexmoMessage())
-            ->from(config('app.name'))
-            ->content("O livro {$this->book->title} já foi exportado. Fazer download em "
-                . route('books.download', ['book' => $this->book->id])
-            );
+            ->from('5544997563119')
+            ->content("O livro {$this->book->title} já foi exportado. Fazer download em ".
+                route('books.download', ['book' => $this->book->id])
+            )
+            ->unicode();
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'book' => $this->book->toArray()
+        ]);
     }
 
     /**
@@ -80,7 +101,7 @@ class BookExportedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'book' => $this->book->toArray()
         ];
     }
 }

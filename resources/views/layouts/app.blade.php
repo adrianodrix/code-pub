@@ -12,7 +12,15 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+
+    <script>
+        window.Laravel = <?php echo json_encode([
+                'csrfToken' => csrf_token(),
+                'userId' => auth()->check() ? auth()->user()->id : null
+        ]); ?>
+    </script>
+
 </head>
 <body style="padding-top: 70px;">
     <div id="app">
@@ -90,7 +98,7 @@
         <p>{{ config('app.name') }} &copy; {{ date('Y') }}</p>
     </footer>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
