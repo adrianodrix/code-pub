@@ -1,6 +1,7 @@
 <?php namespace CodeEdu\Store\Repositories\Eloquent;
 
 use CodeEdu\Book\Repositories\Eloquent\BookRepositoryEloquent;
+use CodeEdu\Store\Models\ProductStore;
 use CodeEdu\Store\Repositories\Contracts\CategoryRepository;
 use CodeEdu\Store\Repositories\Contracts\ProductRepository;
 
@@ -41,7 +42,15 @@ class ProductRepositoryEloquent extends BookRepositoryEloquent implements Produc
 
     public function makeProductStore($id)
     {
-        // TODO: Implement makeProductStore() method.
+        $product = $this->model->find($id);
+        $productStore = new ProductStore();
+        $productStore
+            ->setId($product->id)
+            ->setName($product->title)
+            ->setPrice($product->price)
+            ->setProductOriginal($product);
+
+        return $productStore;
     }
 
     public function like($search)

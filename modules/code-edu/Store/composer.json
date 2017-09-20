@@ -11,5 +11,8 @@
         "psr-4": {
             "CodeEdu\\Store\\": ""
         }
+    },
+    "require": {
+        "laravel/cashier": "^7.0",
     }
 }

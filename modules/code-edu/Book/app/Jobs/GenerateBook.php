@@ -48,6 +48,7 @@ class GenerateBook implements ShouldQueue
             $this->book->author->notify(
                 new BookExportedNotification($this->book->author, $this->book)
             );
+
         } catch (\Exception $e) {
             $this->fail($e);
             throw $e;

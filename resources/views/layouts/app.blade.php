@@ -72,6 +72,7 @@
                     [
                         Auth::user()->name,
                         [
+                            ['link' => route('store.orders'), 'title' => 'Minhas compras', 'permission' => true],
                             ['link' => route('codeeduuser.user.profile.edit'), 'title' => 'Minha Conta', 'permission' => true],
                             //Navigation::NAVIGATION_DIVIDER,
                             ['link' => route('codeeduuser.users.index'), 'title' => 'Usuários', 'permission' => 'users/index'],

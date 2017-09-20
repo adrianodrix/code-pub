@@ -29,7 +29,7 @@
                 <p class="price">R$ {{ money_format('%.2n', $product->price) }}</p>
             </div>
             <div class="pull-right">
-                <a href="{{route('store.index', ['product' => $product->id])}}"
+                <a href="{{route('store.checkout', ['product' => $product->slug])}}"
                    class="btn btn-success btn-cpr">Comprar</a>
             </div>
             <div class="col-md-12">

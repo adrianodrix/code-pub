@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements TableInterface
 {
     use Notifiable,
-        SoftDeletes;
+        SoftDeletes,
+        Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +25,10 @@ class User extends Authenticatable implements TableInterface
         'name',
         'email',
         'password',
-        'verified'
+        'verified',
+        'stripe_id',
+        'card_brand',
+        'card_last_four'
     ];
 
     /**

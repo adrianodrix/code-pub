@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Laravel\Cashier\CashierServiceProvider;
 
 class StoreServiceProvider extends ServiceProvider
 {
@@ -43,6 +44,9 @@ class StoreServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
+
+        // Vendors
+        $this->app->register(CashierServiceProvider::class);
     }
 
     /**

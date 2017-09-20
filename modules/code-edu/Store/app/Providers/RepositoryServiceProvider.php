@@ -20,6 +20,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(\CodeEdu\Store\Repositories\Contracts\CategoryRepository::class, \CodeEdu\Store\Repositories\Eloquent\CategoryRepositoryEloquent::class);
         $this->app->bind(\CodeEdu\Store\Repositories\Contracts\ProductRepository::class, \CodeEdu\Store\Repositories\Eloquent\ProductRepositoryEloquent::class);
+        $this->app->bind(\CodeEdu\Store\Repositories\Contracts\OrderRepository::class, \CodeEdu\Store\Repositories\Eloquent\OrderRepositoryEloquent::class);
         //:end-bindings;
     }
 

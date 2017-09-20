@@ -12,6 +12,7 @@
         "doctrine/dbal": "^2.6",
         "folklore/image": "^0.3.20",
         "jrean/laravel-user-verification": "^4.1",
+        "laravel/cashier": "^7.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",

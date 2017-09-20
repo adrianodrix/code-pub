@@ -32,6 +32,7 @@ return [
     'stripe' => [
         'model' => \CodeEdu\User\Models\User::class,
         'key' => env('STRIPE_KEY'),
+        'public_key' => env('STRIPE_PUBLIC_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
 

@@ -16,3 +16,5 @@ Route::group(['middleware'=> ['auth', 'isVerified', 'auth.resource']], function 
         Route::resource('books', 'BookTrashedController',['only' => ['index', 'show', 'update'] ]);
     });
 });
+
+Route::get('books/{id}/download-common', 'BookController@downloadCommon')->name('books.download-common');

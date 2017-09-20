@@ -8,6 +8,7 @@ use Doctrine\Common\Cache\FilesystemCache;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Foundation\AliasLoader;
+use Laravel\Cashier\CashierServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -72,6 +73,7 @@ class UserServiceProvider extends ServiceProvider
         $this->app->register(AuthServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(RepositoryServiceProvider::class);
+        $this->app->register(CashierServiceProvider::class);
     }
 
     public function registerPackagesEnv()

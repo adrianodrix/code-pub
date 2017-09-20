@@ -171,4 +171,18 @@ class BookController extends Controller
     {
         return response()->download($book->zip_file);
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function downloadCommon($id) {
+        $book = $this->repository->skipCriteria()->find($id);
+
+        if(\Gate::allows('book-download', $book->id)){
+            return $this->download($book);
+        }
+
+        abort(404);
+    }
 }
