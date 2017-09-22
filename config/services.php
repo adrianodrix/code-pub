@@ -30,9 +30,16 @@ return [
     ],
 
     'stripe' => [
-        'model' => CodePub\Models\User::class,
+        'model' => \CodeEdu\User\Models\User::class,
         'key' => env('STRIPE_KEY'),
+        'public_key' => env('STRIPE_PUBLIC_KEY'),
         'secret' => env('STRIPE_SECRET'),
+    ],
+
+    'nexmo' => [
+        'key' => env('NEXMO_KEY'),
+        'secret' => env('NEXMO_SECRET'),
+        'sms_from' => null,
     ],
 
 ];

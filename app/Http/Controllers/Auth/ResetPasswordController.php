@@ -4,6 +4,7 @@ namespace CodePub\Http\Controllers\Auth;
 
 use CodePub\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -35,5 +36,23 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password)
+    {
+        $user->forceFill([
+            'password' => bcrypt($password),
+            'remember_token' => str_random(60),
+            'verified' => true
+        ])->save();
+
+        $this->guard()->login($user);
     }
 }

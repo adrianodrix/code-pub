@@ -1,6 +1,4 @@
-<?php
-
-namespace CodePub\Providers;
+<?php namespace CodePub\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;

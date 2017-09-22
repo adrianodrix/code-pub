@@ -171,12 +171,17 @@ return [
         Bootstrapper\BootstrapperL5ServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
 
+        // Modules
+        CodeEdu\User\Providers\UserServiceProvider::class,
+        CodeEdu\Book\Providers\BookServiceProvider::class,
+        CodeEdu\Store\Providers\StoreServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
         CodePub\Providers\AppServiceProvider::class,
         CodePub\Providers\AuthServiceProvider::class,
-        // CodePub\Providers\BroadcastServiceProvider::class,
+        CodePub\Providers\BroadcastServiceProvider::class,
         CodePub\Providers\EventServiceProvider::class,
         CodePub\Providers\RouteServiceProvider::class,
         CodePub\Providers\RepositoryServiceProvider::class,
@@ -258,6 +263,7 @@ return [
         // Vendors
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Pusher' => Pusher\Pusher::class,
 
         //
 

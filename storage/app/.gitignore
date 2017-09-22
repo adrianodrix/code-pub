@@ -1,3 +1,5 @@
 *
-!public/
 !.gitignore
+!public/
+!books/template/*
+!files/**/*

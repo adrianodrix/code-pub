@@ -5,14 +5,25 @@
     "keywords": ["framework", "laravel", "code-education", "editora"],
     "license": "MIT",
     "type": "project",
+    "prefer-stable": true,
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.6.4",
+        "algolia/algoliasearch-client-php": "^1.20",
+        "cviebrock/eloquent-sluggable": "4.2.*",
+        "doctrine/annotations": "^1.5",
         "doctrine/dbal": "^2.6",
+        "folklore/image": "^0.3.20",
+        "jrean/laravel-user-verification": "^4.1",
+        "laravel/cashier": "^7.0",
         "laravel/framework": "5.4.*",
+        "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
+        "nexmo/client": "^1.0",
         "patricktalmadge/bootstrapper": "^5.10",
-        "prettus/l5-repository": "^2.6"
+        "prettus/l5-repository": "^2.6",
+        "pusher/pusher-php-server": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",
@@ -27,7 +38,8 @@
             "database"
         ],
         "psr-4": {
-            "CodePub\\": "app/"
+            "CodePub\\": "app/",
+            "CodeEdu\\": "modules/code-edu/"
         }
     },
     "autoload-dev": {

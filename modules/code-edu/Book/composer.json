@@ -1,0 +1,27 @@
+{
+    "name": "code-edu/book",
+    "description": "",
+    "authors": [
+        {
+            "name": "Adriano Santos",
+            "email": "adrianodrix@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CodeEdu\\Book\\": ""
+        }
+    },
+    "require": {
+        "algolia/algoliasearch-client-php": "^1.20",
+        "laravel/framework": "5.4.*",
+        "laravelcollective/html": "^5.4",
+        "folklore/image": "^0.3.20",
+        "patricktalmadge/bootstrapper": "^5.10",
+        "prettus/l5-repository": "^2.6",
+        "nexmo/client": "^1.0",
+        "pusher/pusher-php-server": "^3.0",
+        "cviebrock/eloquent-sluggable": "4.2.*",
+        "laravel/scout": "^3.0",
+    }
+}

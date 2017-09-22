@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(CodePub\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(\CodeEdu\User\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -20,21 +20,41 @@ $factory->define(CodePub\Models\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'verified' => true,
     ];
 });
 
-$factory->define(CodePub\Models\Category::class, function (Faker\Generator $faker) {
+$factory->state(\CodeEdu\User\Models\User::class, 'author', function (Faker\Generator $faker) {
+    return [
+        'email' => 'author@codepub.com',
+    ];
+});
+
+$factory->define(\CodeEdu\Book\Models\Category::class, function (Faker\Generator $faker) {
     return [
         'name' => ucfirst($faker->unique()->word),
     ];
 });
 
-$factory->define(CodePub\Models\Book::class, function (Faker\Generator $faker) {
-    $repo = app(\CodePub\Repositories\Contracts\UserRepository::class);
+$factory->define(\CodeEdu\Book\Models\Book::class, function (Faker\Generator $faker) {
+    $repo = app(\CodeEdu\User\Repositories\Contracts\UserRepository::class);
     return [
         'title' => $faker->unique()->sentences(1, true),
         'subtitle' => $faker->paragraph(3, true),
         'price' => $faker->randomFloat(2,10,900),
         'author_id' => $repo->all()->random()->id,
+        'dedication' => $faker->sentences(3, true),
+        'description' => $faker->sentences(3, true),
+        'website' => $faker->url,
+        'percent_complete' => $faker->randomNumber(2),
+        'published' => $faker->randomElement([0, 1])
+    ];
+});
+
+$factory->define(\CodeEdu\Book\Models\Chapter::class, function (Faker\Generator $faker) {
+    $faker->addProvider(new \CodeEdu\Book\Fakers\ChapterFakerProvider($faker));
+    return [
+        'name' => $faker->unique()->sentences(2, true),
+        'content' => $faker->markdown(rand(2,6))
     ];
 });

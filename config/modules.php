@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'namespace' => 'CodePub',
+    'namespace' => 'CodeEdu',
 
     /*
     |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ return [
         |
         */
 
-        'modules' => base_path('modules'),
+        'modules' => base_path('modules/code-edu'),
         /*
         |--------------------------------------------------------------------------
         | Modules assets path
@@ -108,7 +108,7 @@ return [
             'provider' => 'app/Providers',
             'lang' => 'resources/lang',
             'views' => 'resources/views',
-            'test' => 'Tests',
+            'test' => 'tests',
             'jobs' => 'app/Jobs',
             'emails' => 'app/Emails',
             'notifications' => 'app/Notifications',
@@ -140,7 +140,7 @@ return [
     */
 
     'composer' => [
-        'vendor' => 'codepub',
+        'vendor' => 'code-edu',
         'author' => [
             'name' => 'Adriano Santos',
             'email' => 'adrianodrix@gmail.com',
@@ -156,7 +156,7 @@ return [
     */
     'cache' => [
         'enabled' => false,
-        'key' => 'code-modules',
+        'key' => 'code-edu',
         'lifetime' => 60,
     ],
     /*

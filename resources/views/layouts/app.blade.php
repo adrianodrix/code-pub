@@ -11,71 +11,117 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('/css/store.css') }}" rel="stylesheet">
+
+    <script>
+        window.Laravel = <?php echo json_encode([
+                'csrfToken' => csrf_token(),
+                'userId' => auth()->check() ? auth()->user()->id : null
+        ]); ?>
+    </script>
+
 </head>
 <body style="padding-top: 70px;">
     <div id="app">
         <?php
-            $navBar = Navbar::withBrand(config('app.name', 'Laravel'), url('/'))
-                ->inverse()
+            $appName = config('app.name');
+            $navBar = Navbar::withBrand("<img src=\"/img/logo.png\" title=\"$appName\" alt=\"$appName\"> ", url('/'))
                 ->top();
 
             if (Auth::guest()) {
-                $linksGuest = Navigation::right()->links([
-                        ['link' => route('login'), 'title' => 'Entrar'],
-                        ['link' => route('register'), 'title' => 'Cadastre-se'],
-                ]);
-                $navBar->withContent($linksGuest);
+                $formSearch = Form::open(['url' => route('store.search'), 'class' => 'form-inline form-search navbar-left', 'method' => 'GET']).
+                        Html::openFormGroup().
+                        InputGroup::withContents(Form::text('q', null, ['class' => 'form-control']))
+                                ->append(Form::submit('', ['class' => 'btn-search'])).
+                        Form::close();
+                $menuRight = Navigation::pills([
+                        [
+                                'link' => route('register'),
+                                'title' => 'Registrar',
+                                'linkAttributes' => [
+                                        'class' => 'btnnew btnnew-default'
+                                ]
+                        ],
+                        [
+                                'link' => route('login'),
+                                'title' => 'Entrar',
+                                'linkAttributes' => [
+                                        'class' => 'btnnew btnnew-default'
+                                ]
+                        ],
+                ])->right()->render();
+                $navBar->withContent($menuRight)->withContent("<div>$formSearch</div>");
             }
 
             if (Auth::check()) {
-                $menu = Navigation::links([
-                    ['link' => route('categories.index'), 'title' => 'Categorias'],
-                    ['link' => route('books.index'), 'title' => 'Livros'],
-                ]);
-                $navBar->withContent($menu);
+                $menu = [
+                    ['link' => route('categories.index'), 'title' => 'Categorias', 'permission' => 'categories/index'],
+                    ['link' => route('books.index'), 'title' => 'Livros', 'permission' => 'books/index'],
+                ];
+                $navBar->withContent(Navigation::links(NavBarAuth::getLinksAuthorized($menu)));
 
-                $user = Navigation::right()->links([
+                $user = [
                     [
                         'Lixeira',
                         [
-                            ['link' => route('trashed.books.index'), 'title' => 'Livros'],
+                                ['link' => route('trashed.books.index'), 'title' => 'Livros', 'permission' => 'trashed/index'],
                         ]
                     ],
                     [
                         Auth::user()->name,
                         [
+                            ['link' => route('store.orders'), 'title' => 'Minhas compras', 'permission' => true],
+                            ['link' => route('codeeduuser.user.profile.edit'), 'title' => 'Minha Conta', 'permission' => true],
+                            //Navigation::NAVIGATION_DIVIDER,
+                            ['link' => route('codeeduuser.users.index'), 'title' => 'Usuários', 'permission' => 'users/index'],
+                            ['link' => route('codeeduuser.roles.index'), 'title' => 'Perfil de Usuários', 'permission' => 'roles/index'],
+                            //Navigation::NAVIGATION_DIVIDER,
                             [
-                                'link' => url('/logout'),
+                                'link' => route('logout'),
                                 'title' => 'Sair',
+                                'permission' => true,
                                 'linkAttributes' => [
                                         'onclick' => "event.preventDefault();document.getElementById(\"logout-form\").submit();"
                                 ]
                             ]
                         ]
                     ]
-                ]);
-                $navBar->withContent($user);
+                ];
+
+                $navBar->withContent(Navigation::right()->links(NavBarAuth::getLinksAuthorized($user)));
             }
         ?>
 
         {!! $navBar !!}
         {!!
             Form::open(['url'=> route('logout'), 'id' => 'logout-form', 'style'=>'display:none']).
-            csrf_field().
+                csrf_field().
             Form::close()
         !!}
 
         <div class="container">
             @if (Session::has('message'))
-                {!! Alert::{Session::get('message')['type']}(Session::get('message')['message'])->close() !!}
+                @if (isset(Session::get('message')['type']))
+                    {!! Alert::{Session::get('message')['type']}(Session::get('message')['message'])->close() !!}
+                @else
+                    {!! Alert::warning(Session::get('message'))->close() !!}
+                @endif
             @endif
 
-            @yield('content')
+            @yield('banner')
+            @yield('menu')
+            <section>
+                @yield('content')
+            </section>
         </div>
     </div>
-
+    <footer class="text-center">
+        <p>{{ config('app.name') }} &copy; {{ date('Y') }}</p>
+    </footer>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>
