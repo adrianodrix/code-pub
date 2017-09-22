@@ -37,7 +37,18 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
      */
     public function create(array $attributes)
     {
-        $model = parent::create($attributes);
+        $model = null;
+        $create = function () use ($attributes, &$model) {
+            $model = parent::create($attributes);
+        };
+        $create = \Closure::bind($create, $this);
+
+        if (!isset($attributes['published'])) {
+            Book::withoutSyncingToSearch($create);
+        } else {
+            $create();
+        }
+
         $model->categories()->sync($attributes['categories']);
         return $model;
     }
@@ -56,8 +67,14 @@ class BookRepositoryEloquent extends BaseRepository implements BookRepository
     {
         $attributes['published'] = isset($attributes['published']);
 
+        /** @var Book $model */
         $model = parent::update($attributes, $id);
         $model->categories()->sync($attributes['categories']);
+
+        if (!$model->published) {
+            $model->unsearchable();
+        }
+
         return $model;
     }
 

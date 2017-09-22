@@ -16,6 +16,7 @@
                 <div class="col-md-3 book-home">
                     <a href="{{route('store.show-product', ['slug' => $product->slug])}}" class="book-thumbnail">
                         <img src="{{ asset($product->thumbnail_small_relative_file) }}" alt="{{$product->title}}"/>
+                        {{ $product->title }}
                     </a>
                 </div>
             @endforeach

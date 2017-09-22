@@ -24,7 +24,8 @@ class ProductRepositoryEloquent extends BookRepositoryEloquent implements Produc
     public function home()
     {
         //return $this->model->where('published', 1)->paginate(12)->items();
-        return $this->model->where('published', 1)->take(12)->get();
+//        return $this->model->where('published', 1)->take(12)->get();
+        return $this->model->search('')->take(12)->get();
     }
 
     public function findByCategory($id)
@@ -55,9 +56,6 @@ class ProductRepositoryEloquent extends BookRepositoryEloquent implements Produc
 
     public function like($search)
     {
-        return $this->model
-            ->where('title', 'like', "%{$search}%")
-            ->where('published', 1)
-            ->get();
+        return $this->model->search($search)->get();
     }
 }
