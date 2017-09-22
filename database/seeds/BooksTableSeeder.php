@@ -14,7 +14,7 @@ class BooksTableSeeder extends Seeder
         $collection = app(\CodeEdu\Book\Repositories\Contracts\CategoryRepository::class)->all();
         $bookUpload = app(\CodeEdu\Book\Services\CoverUpload::class);
 
-        $books = factory(\CodeEdu\Book\Models\Book::class, 8000)
+        $books = factory(\CodeEdu\Book\Models\Book::class, 50)
             ->create()
             ->each(function($book) use ($collection, $bookUpload) {
                 $book->categories()->sync($collection->random(4)->pluck('id')->all());
