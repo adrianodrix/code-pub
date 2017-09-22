@@ -13,6 +13,7 @@
         }
     },
     "require": {
+        "algolia/algoliasearch-client-php": "^1.20",
         "laravel/framework": "5.4.*",
         "laravelcollective/html": "^5.4",
         "folklore/image": "^0.3.20",
@@ -21,5 +22,6 @@
         "nexmo/client": "^1.0",
         "pusher/pusher-php-server": "^3.0",
         "cviebrock/eloquent-sluggable": "4.2.*",
+        "laravel/scout": "^3.0",
     }
 }

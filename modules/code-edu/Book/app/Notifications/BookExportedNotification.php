@@ -42,7 +42,7 @@ class BookExportedNotification extends Notification
         return [
             'broadcast',
             'mail',
-            'nextmo'
+            'nexmo'
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace CodeEdu\Book\Models;
 
 use Bootstrapper\Interfaces\TableInterface;
+use CodeEdu\Book\Events\BookPreIndexEvent;
 use CodeEdu\Book\Models\Traits\BookStorageTrait;
 use CodeEdu\Book\Models\Traits\BookThumbnailTrait;
 use CodeEdu\User\Models\User;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Laravel\Scout\Searchable;
 
 class Book extends Model implements Transformable, TableInterface
 {
@@ -22,7 +24,8 @@ class Book extends Model implements Transformable, TableInterface
         BookStorageTrait,
         BookThumbnailTrait,
         Sluggable,
-        SluggableScopeHelpers;
+        SluggableScopeHelpers,
+        Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -137,4 +140,39 @@ class Book extends Model implements Transformable, TableInterface
             ]
         ];
     }
+
+    /**
+     * Get the index name for the model.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return 'books_index';
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        /** @var BookPreIndexEvent $event */
+        $event = new BookPreIndexEvent($this);
+        event($event);
+
+        $array['ranking'] = $event->getRanking();
+        $array['author'] = $this->author->name;
+
+        unset($array['author_id']);
+        unset($array['dedication']);
+        unset($array['deleted_at']);
+        unset($array['percent_complete']);
+
+        return $array;
+    }
+
 }

@@ -1,5 +1,6 @@
 <?php namespace CodeEdu\Store\Repositories\Eloquent;
 
+use CodeEdu\Store\Events\OrderPostProcessEvent;
 use CodeEdu\Store\Models\Order;
 use CodeEdu\Store\Models\ProductStore;
 use CodeEdu\Store\Repositories\Contracts\OrderRepository;
@@ -50,6 +51,7 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
         $order->orderable()->associate($productStore->getProductOriginal());
         $order->save();
 
+        event(new OrderPostProcessEvent($order));
         return $order;
     }
 
